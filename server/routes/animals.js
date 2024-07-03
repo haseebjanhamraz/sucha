@@ -5,11 +5,23 @@ const passport = require("passport");
 const { authenticateJWT } = require("../middlewares/authMiddleware");
 
 // Get all animals
+
 router.get("/", authenticateJWT, async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // Default page 1
+  const perPage = parseInt(req.query.perPage) || 10; // Default 10 animals per page
+
   try {
-    const animals = await Animal.find();
-    console.log(" *** All Animals Retrieved *** ");
-    res.json(animals);
+    const totalAnimals = await Animal.countDocuments();
+    const animals = await Animal.find()
+      .skip((page - 1) * perPage)
+      .limit(perPage);
+
+    console.log("*** Animals Retrieved ***");
+
+    res.json({
+      data: animals,
+      totalPages: Math.ceil(totalAnimals / perPage),
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
