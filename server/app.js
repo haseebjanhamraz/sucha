@@ -5,6 +5,7 @@ const passport = require("passport");
 const animalRoutes = require("./routes/animals");
 const milkRecordRoutes = require("./routes/milkRecords");
 const vaccineRecordRoutes = require("./routes/vaccineRecords");
+const AiSemen = require("./routes/aiSemen");
 const authRoutes = require("./routes/auth");
 const cors = require("cors");
 
@@ -31,6 +32,7 @@ mongoose
 app.use("/api/animals", animalRoutes);
 app.use("/api/milkRecords", milkRecordRoutes);
 app.use("/api/vaccineRecords", vaccineRecordRoutes);
+app.use("/api/aiSemens", AiSemen);
 app.use("/api/auth", authRoutes);
 
 app.listen(port, () => {
