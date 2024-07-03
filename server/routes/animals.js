@@ -8,8 +8,8 @@ const { authenticateJWT } = require("../middlewares/authMiddleware");
 router.get("/", authenticateJWT, async (req, res) => {
   try {
     const animals = await Animal.find();
+    console.log(" *** All Animals Retrieved *** ");
     res.json(animals);
-    console.log("Success");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -94,7 +94,7 @@ router.delete("/:id", authenticateJWT, async (req, res) => {
     const animal = await Animal.findById(req.params.id);
     if (!animal) return res.status(404).json({ message: "Animal not found" });
 
-    await animal.remove();
+    await Animal.deleteOne({ _id: req.params.id });
     res.json({ message: "Animal deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
