@@ -27,6 +27,16 @@ router.get("/", authenticateJWT, async (req, res) => {
   }
 });
 
+router.get("/count", authenticateJWT, async (req, res) => {
+  try {
+    const totalCount = await Animal.countDocuments();
+    res.json({ count: totalCount });
+  } catch (err) {
+    console.error("Error while counting animals:", err);
+    res.status(500).json({ message: "Failed to get total count of animals" });
+  }
+});
+
 // Get an animal by ID
 router.get("/:id", authenticateJWT, async (req, res) => {
   try {
