@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Blacklist = require("../models/Blacklist");
 const router = express.Router();
-const secretOrKey = "your_jwt_secret_key"; // Replace with your own secret key
+const { secretOrKey } = require("../config/keys");
+const validateToken = require("../middlewares/validateToken");
 
 // Register a new user
 router.post("/register", async (req, res) => {
@@ -40,9 +41,14 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(payload, secretOrKey, { expiresIn: "1h" });
 
     res.json({ message: "Login successful", token: token });
+    console.log("A User Logged In 🟢 ");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+router.get("/validate-token", validateToken, (req, res) => {
+  res.json({ user: req.user });
 });
 
 // POST route to handle logout and invalidate token
