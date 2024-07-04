@@ -4,28 +4,38 @@ const router = express.Router();
 const { authenticateJWT } = require("../middlewares/authMiddleware");
 const VaccinesList = require("../models/VaccinesList");
 
-// Add a vaccine to database
-router.post("/", authenticateJWT, async (req, res) => {
-  try {
-    const vaccines = await VaccinesList.find();
-    if (!vaccines)
-      return res.status(404).json({ message: "Vaccines not found" });
+// Add a vaccine to the database
+router.post(
+  "/",
+  authenticateJWT,
+  [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("expirydate").notEmpty().withMessage("Expiry date is required"),
+    body("barcode").notEmpty().withMessage("Barcode is required"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-    const newVaccine = new VaccinesList({
-      name: req.body.name,
-      expirydate: req.body.expirydate,
-      barcode: req.body.barcode,
-    });
+    try {
+      const newVaccine = new VaccinesList({
+        name: req.body.name,
+        expirydate: req.body.expirydate,
+        barcode: req.body.barcode,
+      });
 
-    const savedVaccine = await newVaccine.save();
-    res.status(201).json(savedVaccine);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+      const savedVaccine = await newVaccine.save();
+      res.status(201).json(savedVaccine);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
   }
-});
+);
 
 // Route to fetch all vaccines
-router.get("/", async (req, res) => {
+router.get("/", authenticateJWT, async (req, res) => {
   try {
     const vaccines = await VaccinesList.find();
     res.json(vaccines);
@@ -53,6 +63,7 @@ router.put("/:id", authenticateJWT, async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
 // DELETE route to delete a vaccine record by ID
 router.delete("/:id", authenticateJWT, async (req, res) => {
   try {
