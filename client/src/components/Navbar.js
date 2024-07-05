@@ -11,7 +11,10 @@ const Navbar = ({ toggleSidebar, isAuthenticated, onLogout }) => {
   return (
     <nav className="bg-blue-600 p-4 text-white">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">Dashboard</h1>
+        <div>
+          <h1 className="text-xl font-bold">Neoteric Genetics</h1>
+          <p className="text-sm text-gray-200">Database Management System</p>
+        </div>
         <div className="flex items-center">
           <button className="sm:hidden mr-4" onClick={toggleSidebar}>
             <svg
