@@ -27,7 +27,9 @@ const App = () => {
           onLogout={handleLogout}
         />
         <div className="flex flex-1">
-          {isAuthenticated && <Sidebar isOpen={sidebarOpen} />}
+          {isAuthenticated && (
+            <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+          )}
           <main className="flex-1 p-6 bg-gray-100">
             <Routes>
               {routesConfig.map((route, index) => (

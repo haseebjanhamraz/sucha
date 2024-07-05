@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { MdDashboard } from "react-icons/md";
@@ -6,6 +6,7 @@ import { FaCow } from "react-icons/fa6";
 import { IoMdAnalytics } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
 import { FaWindowClose } from "react-icons/fa";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
 
 const navItems = [
   { path: "/", label: "Dashboard", icon: MdDashboard },
@@ -16,19 +17,21 @@ const navItems = [
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
+  const [isClicked, setIsClicked] = useState(true);
+
+  const handleClick = () => {
+    setIsClicked(!isClicked);
+  };
 
   return (
     <>
-      <button
-        onClick={toggleSidebar}
-        className="sm:hidden p-4 bg-blue-600 text-white fixed top-0 left-0 z-20"
-      >
-        {isOpen ? "Close" : "Open"}
-      </button>
-      <aside
+      <div
         className={`w-64 bg-gray-800 text-white transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0 transition-transform duration-300 ease-in-out fixed sm:relative z-10`}
+        style={{
+          width: isClicked ? "auto" : "fit",
+        }}
       >
         <div className="p-4">
           {navItems.map((item, index) => (
@@ -41,16 +44,34 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             >
               <div className="flex gap-2 items-center">
                 <item.icon className="mr-2" size={20} />
-                {item.label}
+                <span
+                  style={{
+                    display: isClicked ? "block" : "none",
+                  }}
+                >
+                  {" "}
+                  {item.label}
+                </span>
               </div>
             </Link>
           ))}
           <FaWindowClose
-            onClick={toggleSidebar}
-            className="sm:block text-2xl absolute inset-x-48 bottom-2 h-16"
+            cursor="pointer"
+            onClick={handleClick}
+            className=" text-2xl absolute inset-x-28 bottom-2 h-16"
+            style={{
+              display: isClicked ? "block" : "none",
+            }}
+          />
+          <AiOutlineMenuUnfold
+            className="text-2xl absolute inset-x-5 bottom-2 h-16 transition-[width]"
+            onClick={handleClick}
+            style={{
+              display: isClicked ? "none" : "block",
+            }}
           />
         </div>
-      </aside>
+      </div>
     </>
   );
 };
