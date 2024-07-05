@@ -66,7 +66,7 @@ router.post("/logout", async (req, res) => {
     if (tokenExists) {
       return res.status(400).json({ message: "Token already invalidated" });
     }
-
+    console.log("A User Logged out 🔴 ");
     // Extract expiration date from token (optional)
     const decodedToken = jwt.decode(token);
     const expiresAt = new Date(decodedToken.exp * 1000); // Convert seconds to milliseconds
@@ -77,7 +77,6 @@ router.post("/logout", async (req, res) => {
       expiresAt: expiresAt,
     });
     await blacklistToken.save();
-
     res.json({ message: "Token invalidated successfully" });
   } catch (err) {
     console.error("Error while blacklisting token:", err);
