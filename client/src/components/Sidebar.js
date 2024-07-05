@@ -1,11 +1,17 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
+import { MdDashboard } from "react-icons/md";
+import { FaCow } from "react-icons/fa6";
+import { IoMdAnalytics } from "react-icons/io";
+import { IoMdSettings } from "react-icons/io";
+import { FaWindowClose } from "react-icons/fa";
+
 const navItems = [
-  { path: "/", label: "Dashboard" },
-  { path: "/cows", label: "Cows" },
-  { path: "/analytics", label: "Analytics" },
-  { path: "/settings", label: "Settings" },
+  { path: "/", label: "Dashboard", icon: MdDashboard },
+  { path: "/cows", label: "Cows", icon: FaCow },
+  { path: "/analytics", label: "Analytics", icon: IoMdAnalytics },
+  { path: "/settings", label: "Settings", icon: IoMdSettings },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -33,9 +39,16 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 location.pathname === item.path ? "bg-blue-700" : "bg-gray-800"
               }`}
             >
-              {item.label}
+              <div className="flex gap-2 items-center">
+                <item.icon className="mr-2" size={20} />
+                {item.label}
+              </div>
             </Link>
           ))}
+          <FaWindowClose
+            onClick={toggleSidebar}
+            className="sm:block text-2xl absolute inset-x-48 bottom-2 h-16"
+          />
         </div>
       </aside>
     </>
