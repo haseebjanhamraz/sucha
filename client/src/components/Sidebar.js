@@ -40,16 +40,19 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 location.pathname === item.path ? "bg-blue-700" : "bg-gray-800"
               }`}
             >
-              <div className="flex gap-2 items-center">
-                <item.icon className="mr-2" size={20} />
-                <span
-                  style={{
-                    display: isClicked ? "block" : "none",
-                  }}
-                >
-                  {" "}
-                  {item.label}
-                </span>
+              <div className="flex flex-col">
+                <div className="flex gap-2 items-center">
+                  <item.icon className="mr-2" size={20} />
+                  <span
+                    style={{
+                      display: isClicked ? "block" : "none",
+                    }}
+                  >
+                    {" "}
+                    {item.label}
+                  </span>
+                </div>
+                <div className="flex flex-col items-end gap-2"></div>
               </div>
             </Link>
           ))}
