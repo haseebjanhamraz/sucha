@@ -1,8 +1,8 @@
 // src/components/AddCowModal.js
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const AddCowModal = ({ showModal, setShowModal, fetchCows }) => {
+const AddCowModal = ({ showModal, setShowModal, fetchCows, cowId }) => {
   const [tag, setTag] = useState("");
   const [breed, setBreed] = useState("");
   const [dob, setDob] = useState("");
@@ -10,8 +10,46 @@ const AddCowModal = ({ showModal, setShowModal, fetchCows }) => {
   const [sire, setSire] = useState("");
   const [sex, setSex] = useState("");
   const [color, setColor] = useState("");
-  const [type, setType] = useState("");
   const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+    if (cowId) {
+      // Fetch the cow details if cowId is provided (for editing)
+      fetchCowDetails(cowId);
+    }
+  }, [cowId]);
+
+  const fetchCowDetails = async (id) => {
+    try {
+      const token = sessionStorage.getItem("token"); // Retrieve token from session storage
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      const response = await fetch(`http://localhost:8080/api/animals/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include JWT token in Authorization header
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch cow details");
+      }
+
+      const cow = await response.json();
+      setTag(cow.tag);
+      setBreed(cow.breed);
+      setDob(cow.dob);
+      setDam(cow.dam);
+      setSire(cow.sire);
+      setSex(cow.sex);
+      setColor(cow.color);
+    } catch (error) {
+      console.error("Fetch cow details error:", error);
+      setAlert({ type: "error", message: error.message });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,21 +59,35 @@ const AddCowModal = ({ showModal, setShowModal, fetchCows }) => {
         throw new Error("No token found");
       }
 
-      const response = await fetch(`http://localhost:8080/api/animals`, {
-        method: "POST",
+      let url = "http://localhost:8080/api/animals";
+      let method = "POST";
+
+      if (cowId) {
+        // If cowId exists, it's an edit operation
+        url += `/${cowId}`;
+        method = "PUT";
+      }
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ tag, breed, dob, dam, sire, sex, color, type }),
+        body: JSON.stringify({ tag, breed, dob, dam, sire, sex, color }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add cow");
+        throw new Error("Failed to save cow");
       }
 
       const data = await response.json();
-      setAlert({ type: "success", message: "Cow added successfully!" });
+      setAlert({
+        type: "success",
+        message: cowId
+          ? "Cow updated successfully!"
+          : "Cow added successfully!",
+      });
       fetchCows(); // Refresh the cow list
       setTimeout(() => {
         setAlert(null);
@@ -51,7 +103,9 @@ const AddCowModal = ({ showModal, setShowModal, fetchCows }) => {
     showModal && (
       <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
         <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
-          <h2 className="text-2xl mb-4">Add New Cow</h2>
+          <h2 className="text-2xl mb-4">
+            {cowId ? "Edit Cow" : "Add New Cow"}
+          </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -73,18 +127,6 @@ const AddCowModal = ({ showModal, setShowModal, fetchCows }) => {
                 type="text"
                 value={breed}
                 onChange={(e) => setBreed(e.target.value)}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Type:
-              </label>
-              <input
-                type="text"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               />
@@ -154,7 +196,7 @@ const AddCowModal = ({ showModal, setShowModal, fetchCows }) => {
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
-                Add Cow
+                {cowId ? "Update Cow" : "Add Cow"}
               </button>
               <button
                 type="button"
