@@ -26,6 +26,7 @@ const validateToken = async (req, res, next) => {
     }
 
     const user = await User.findById(decoded.id);
+
     if (!user) {
       console.log("User not found");
       return res.status(401).json({ message: "Unauthorized, user not found" });

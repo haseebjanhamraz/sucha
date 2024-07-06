@@ -3,10 +3,11 @@ const router = express.Router();
 const Animal = require("../models/Animal");
 const passport = require("passport");
 const { authenticateJWT } = require("../middlewares/authMiddleware");
+const validateToken = require("../middlewares/validateToken");
 
 // Get all animals
 
-router.get("/", authenticateJWT, async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Default page 1
   const perPage = parseInt(req.query.perPage) || 10; // Default 10 animals per page
 
@@ -27,7 +28,7 @@ router.get("/", authenticateJWT, async (req, res) => {
   }
 });
 
-router.get("/count", authenticateJWT, async (req, res) => {
+router.get("/count", validateToken, async (req, res) => {
   try {
     const totalCount = await Animal.countDocuments();
     res.json({ count: totalCount });
@@ -38,7 +39,7 @@ router.get("/count", authenticateJWT, async (req, res) => {
 });
 
 // Get an animal by ID
-router.get("/:id", authenticateJWT, async (req, res) => {
+router.get("/:id", validateToken, async (req, res) => {
   try {
     const animal = await Animal.findById(req.params.id);
     if (!animal) return res.status(404).json({ message: "Animal not found" });
@@ -52,7 +53,7 @@ router.get("/:id", authenticateJWT, async (req, res) => {
 const { body, validationResult } = require("express-validator");
 router.post(
   "/",
-  authenticateJWT,
+  validateToken,
   [
     body("tag").notEmpty().withMessage("Tag is required"),
     body("breed").notEmpty().withMessage("Breed is required"),
@@ -90,7 +91,7 @@ router.post(
 );
 
 // Update an animal
-router.put("/:id", authenticateJWT, async (req, res) => {
+router.put("/:id", validateToken, async (req, res) => {
   try {
     const animal = await Animal.findById(req.params.id);
     if (!animal) return res.status(404).json({ message: "Animal not found" });
@@ -111,7 +112,7 @@ router.put("/:id", authenticateJWT, async (req, res) => {
 });
 
 // Delete an animal
-router.delete("/:id", authenticateJWT, async (req, res) => {
+router.delete("/:id", validateToken, async (req, res) => {
   try {
     const animal = await Animal.findById(req.params.id);
     if (!animal) return res.status(404).json({ message: "Animal not found" });

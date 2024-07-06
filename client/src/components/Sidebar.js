@@ -26,9 +26,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <>
       <div
-        className={`w-64 bg-gray-800 text-white transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } sm:translate-x-0 transition-transform duration-300 ease-in-out fixed sm:relative z-10`}
+        className={`w-64 bg-gray-800 text-white transform sm:translate-x-0 transition-transform duration-300 ease-in-out fixed sm:relative z-10`}
         style={{
           width: isClicked ? "auto" : "fit",
         }}
@@ -38,7 +36,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <Link
               key={index}
               to={item.path}
-              className={`text-lg font-semibold block p-2 rounded hover:bg-blue-700 ${
+              className={`text-md font-bold block p-2 rounded hover:bg-blue-700 ${
                 location.pathname === item.path ? "bg-blue-700" : "bg-gray-800"
               }`}
             >
@@ -58,14 +56,15 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <FaWindowClose
             cursor="pointer"
             onClick={handleClick}
-            className=" text-2xl absolute inset-x-28 bottom-2 h-16"
+            className=" text-2xl absolute inset-x-32 bottom-2 h-16"
             style={{
               display: isClicked ? "block" : "none",
             }}
           />
           <AiOutlineMenuUnfold
-            className="text-2xl absolute inset-x-5 bottom-2 h-16 transition-[width]"
+            cursor="pointer"
             onClick={handleClick}
+            className="text-2xl absolute inset-x-5 bottom-2 h-16 transition-[width]"
             style={{
               display: isClicked ? "none" : "block",
             }}
