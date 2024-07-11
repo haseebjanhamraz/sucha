@@ -22,6 +22,7 @@ const validateToken = async (req, res, next) => {
     const currentTime = Math.floor(Date.now() / 1000);
     if (decoded.exp < currentTime) {
       console.log("Token expired");
+      sessionStorage.removeItem("token");
       return res.status(401).json({ message: "Unauthorized, token expired" });
     }
 
