@@ -1,6 +1,6 @@
 // src/components/Sidebar.jsx
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { GiCow } from "react-icons/gi";
 import { LuMilk } from "react-icons/lu";
@@ -19,12 +19,12 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768);
+  const location = useLocation();
+  const { logout } = useAuth();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
-
-  const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -47,8 +47,9 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-full bg-gray-800 text-white flex flex-col 
-        ${isCollapsed ? "w-20" && "items-center" : "w-64"}`}
+      className={`h-full bg-gray-800 text-white flex flex-col ${
+        isCollapsed ? "w-20 items-center" : "w-64"
+      }`}
     >
       <div className="p-4 text-lg font-bold flex justify-between items-center">
         {!isCollapsed && <span>Dairy Farm</span>}
@@ -61,7 +62,9 @@ const Sidebar = () => {
           <Link
             key={index}
             to={item.to}
-            className="p-4 hover:bg-gray-700 flex items-center"
+            className={`p-4 hover:bg-gray-700 flex items-center ${
+              location.pathname === item.to ? "bg-gray-600" : ""
+            }`}
           >
             <item.icon className="text-2xl" />
             {!isCollapsed && <p className="ml-2 text-lg">{item.label}</p>}
