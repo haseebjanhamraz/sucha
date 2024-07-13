@@ -1,5 +1,5 @@
 // src/components/Sidebar.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { GiCow } from "react-icons/gi";
@@ -18,7 +18,7 @@ const sidebarItems = [
 ];
 
 const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -30,11 +30,25 @@ const Sidebar = () => {
     logout();
   };
 
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div
-      className={`h-full bg-gray-800 text-white flex flex-col ${
-        isCollapsed ? "w-20" : "w-64"
-      }`}
+      className={`h-full bg-gray-800 text-white flex flex-col 
+        ${isCollapsed ? "w-20" && "items-center" : "w-64"}`}
     >
       <div className="p-4 text-lg font-bold flex justify-between items-center">
         {!isCollapsed && <span>Dairy Farm</span>}
@@ -54,7 +68,14 @@ const Sidebar = () => {
           </Link>
         ))}
       </nav>
-      <CiLogout onClick={handleLogout} />
+      <div className="flex items-end justify-end p-4 px-8 h-full mb-5">
+        <div
+          className="flex items-center gap-4 bg-slate-500 hover:bg-red-500 p-2 cursor-pointer rounded-lg"
+          onClick={handleLogout}
+        >
+          {isCollapsed ? <CiLogout /> : <p>Logout</p>}
+        </div>
+      </div>
     </div>
   );
 };
