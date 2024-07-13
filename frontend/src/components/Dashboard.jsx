@@ -18,7 +18,13 @@ const Dashboard = ({ children }) => {
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Header />
-        <main className="flex-1 p-6">{children}</main>
+        <main
+          className={`flex-1 p-6 border-2 ${
+            theme === "dark" ? "border-2 border-blue-800" : "border-gray-200"
+          }`}
+        >
+          {children}
+        </main>
       </div>
     </div>
   );
