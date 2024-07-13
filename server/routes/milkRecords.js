@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("passport");
 const { body, validationResult } = require("express-validator");
 const MilkRecord = require("../models/MilkRecord");
 const Animal = require("../models/Animal");

@@ -54,113 +54,121 @@ const CowsPage = () => {
   );
 
   return (
-    <div
-      className={`${
-        theme === "dark"
-          ? "bg-gray-900 text-blue-400"
-          : "bg-gray-100 text-gray-800"
-      }`}
-    >
-      <h1 className="text-2xl font-bold mb-6">Cows</h1>
-      <input
-        type="text"
-        placeholder="Search by name"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        className="mb-4 p-2 border border-gray-300 rounded"
-      />
-      <div className="overflow-x-auto">
-        <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 p-2">Tag#</th>
-              <th className="border border-gray-300 p-2">Breed</th>
-              <th className="border border-gray-300 p-2 hidden sm:table-cell">
-                DOB
-              </th>
-              <th className="border border-gray-300 p-2 hidden sm:table-cell">
-                Age
-              </th>
-              <th className="border border-gray-300 p-2 hidden md:table-cell">
-                Dam
-              </th>
-              <th className="border border-gray-300 p-2 hidden md:table-cell">
-                Sire
-              </th>
-              <th className="border border-gray-300 p-2">Sex</th>
-              <th className="border border-gray-300 p-2 hidden lg:table-cell">
-                Color
-              </th>
-            </tr>
-          </thead>
-          <tbody className="text-center">
-            {displayedCows.map((cow) => (
-              <tr key={cow._id} className="border border-gray-300">
-                <td className="border border-gray-300 p-2">{cow.tag}</td>
-                <td className="border border-gray-300 p-2">{cow.breed}</td>
-                <td className="border border-gray-300 p-2 hidden sm:table-cell">
-                  {formatDate(cow.dob)}
-                </td>
-                <td className="border border-gray-300 p-2 hidden sm:table-cell">
-                  {calculateFullAge(cow.dob)}
-                </td>
-                <td className="border border-gray-300 p-2 hidden md:table-cell">
-                  {cow.dam}
-                </td>
-                <td className="border border-gray-300 p-2 hidden md:table-cell">
-                  {cow.sire}
-                </td>
-                <td className="border border-gray-300 p-2">{cow.sex}</td>
-                <td className="border border-gray-300 p-2 hidden lg:table-cell">
-                  {cow.color}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <>
+      <div
+        className={`${
+          theme === "dark"
+            ? "bg-gray-900 text-blue-400"
+            : "bg-gray-100 text-gray-800"
+        }`}
+      >
+        <h1 className="text-2xl font-bold mb-6">
+          Cows
+          <span className="inline-flex items-center rounded-md bg-blue-50 mx-1 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
+            {cows.length}
+          </span>
+        </h1>
 
-      <div className="flex justify-between mt-4">
-        <span>
-          Page{" "}
-          <strong>
-            {currentPage + 1} of {totalPages}
-          </strong>
-        </span>
-        <div>
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-            disabled={currentPage === 0}
-            className="mr-2 p-2 bg-gray-300 rounded"
-          >
-            {"<"}
-          </button>
-          <button
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
-            }
-            disabled={currentPage === totalPages - 1}
-            className="p-2 bg-gray-300 rounded"
-          >
-            {">"}
-          </button>
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded"
+        />
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">
+            <thead>
+              <tr>
+                <th className="border border-gray-300 p-2">Tag#</th>
+                <th className="border border-gray-300 p-2">Breed</th>
+                <th className="border border-gray-300 p-2 hidden sm:table-cell">
+                  DOB
+                </th>
+                <th className="border border-gray-300 p-2 hidden sm:table-cell">
+                  Age
+                </th>
+                <th className="border border-gray-300 p-2 hidden md:table-cell">
+                  Dam
+                </th>
+                <th className="border border-gray-300 p-2 hidden md:table-cell">
+                  Sire
+                </th>
+                <th className="border border-gray-300 p-2">Sex</th>
+                <th className="border border-gray-300 p-2 hidden lg:table-cell">
+                  Color
+                </th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              {displayedCows.map((cow) => (
+                <tr key={cow._id} className="border border-gray-300">
+                  <td className="border border-gray-300 p-2">{cow.tag}</td>
+                  <td className="border border-gray-300 p-2">{cow.breed}</td>
+                  <td className="border border-gray-300 p-2 hidden sm:table-cell">
+                    {formatDate(cow.dob)}
+                  </td>
+                  <td className="border border-gray-300 p-2 hidden sm:table-cell">
+                    {calculateFullAge(cow.dob)}
+                  </td>
+                  <td className="border border-gray-300 p-2 hidden md:table-cell">
+                    {cow.dam}
+                  </td>
+                  <td className="border border-gray-300 p-2 hidden md:table-cell">
+                    {cow.sire}
+                  </td>
+                  <td className="border border-gray-300 p-2">{cow.sex}</td>
+                  <td className="border border-gray-300 p-2 hidden lg:table-cell">
+                    {cow.color}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <select
-          value={pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-            setCurrentPage(0); // Reset to first page
-          }}
-          className="ml-4 p-2 border border-gray-300 rounded"
-        >
-          {[5, 10, 20, 50].map((size) => (
-            <option key={size} value={size}>
-              Show {size}
-            </option>
-          ))}
-        </select>
+
+        <div className="flex justify-between mt-4">
+          <span>
+            Page{" "}
+            <strong>
+              {currentPage + 1} of {totalPages}
+            </strong>
+          </span>
+          <div>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              disabled={currentPage === 0}
+              className="mr-2 p-2 bg-gray-300 rounded"
+            >
+              {"<"}
+            </button>
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
+              }
+              disabled={currentPage === totalPages - 1}
+              className="p-2 bg-gray-300 rounded"
+            >
+              {">"}
+            </button>
+          </div>
+          <select
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+              setCurrentPage(0); // Reset to first page
+            }}
+            className="ml-4 p-2 border border-gray-300 rounded"
+          >
+            {[5, 10, 20, 50].map((size) => (
+              <option key={size} value={size}>
+                Show {size}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
