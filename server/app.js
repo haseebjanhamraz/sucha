@@ -31,8 +31,8 @@ mongoose
 
 // Routes
 app.use("/api/animals", animalRoutes);
-app.use("/api/milkRecords", milkRecordRoutes);
-app.use("/api/vaccineRecords", vaccineRecordRoutes);
+app.use("/api/milk-records", milkRecordRoutes);
+app.use("/api/vaccine-records", vaccineRecordRoutes);
 app.use("/api/vaccines", vaccineRoutes);
 app.use("/api/aiSemens", AiSemen);
 app.use("/api/auth", authRoutes);

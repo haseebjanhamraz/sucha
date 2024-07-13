@@ -4,11 +4,12 @@ const MilkRecord = require("../models/MilkRecord");
 const Animal = require("../models/Animal");
 const router = express.Router();
 const { authenticateJWT } = require("../middlewares/authMiddleware");
+const validateToken = require("../middlewares/validateToken");
 
 // Add a milk record (protected route)
 router.post(
   "/",
-  authenticateJWT,
+  validateToken,
   [
     body("animalId")
       .isMongoId()
@@ -45,5 +46,21 @@ router.post(
     }
   }
 );
+router.get("/:animalId", validateToken, async (req, res) => {
+  try {
+    const animalId = req.params.animalId;
+    const milkRecords = await MilkRecord.find({ animalId });
+
+    if (!milkRecords) {
+      return res
+        .status(404)
+        .json({ message: "No milk records found for this animal" });
+    }
+
+    res.status(200).json(milkRecords);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
 module.exports = router;
