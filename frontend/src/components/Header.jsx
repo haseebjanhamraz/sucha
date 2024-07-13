@@ -8,7 +8,7 @@ const Header = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="w-full bg-white shadow p-4 flex justify-between items-center">
+    <header className="w-full shadow p-4 flex justify-between items-center">
       <div className="text-xl font-bold">Dashboard</div>
       <div className="flex items-center">
         <button

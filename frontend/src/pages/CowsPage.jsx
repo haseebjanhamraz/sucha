@@ -2,8 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import { useTheme } from "../ThemeContext";
+import { calculateFullAge } from "../utils/calculateAge";
+import { formatDate } from "../utils/formatDate";
 
 const CowsPage = () => {
+  const { theme } = useTheme();
   const { token } = useAuth();
   const [cows, setCows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,7 +54,13 @@ const CowsPage = () => {
   );
 
   return (
-    <div>
+    <div
+      className={`${
+        theme === "dark"
+          ? "bg-gray-900 text-blue-400"
+          : "bg-gray-100 text-gray-800"
+      }`}
+    >
       <h1 className="text-2xl font-bold mb-6">Cows</h1>
       <input
         type="text"
@@ -59,30 +69,56 @@ const CowsPage = () => {
         onChange={(e) => setSearchInput(e.target.value)}
         className="mb-4 p-2 border border-gray-300 rounded"
       />
-      <table className="min-w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-300 p-2">Tag#</th>
-            <th className="border border-gray-300 p-2">Breed</th>
-            <th className="border border-gray-300 p-2">DOB</th>
-            <th className="border border-gray-300 p-2">Dam</th>
-            <th className="border border-gray-300 p-2">Sire</th>
-            <th className="border border-gray-300 p-2">Sex</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white">
-          {displayedCows.map((cow) => (
-            <tr key={cow._id} className="border border-gray-300">
-              <td className="border border-gray-300 p-2">{cow.tag}</td>
-              <td className="border border-gray-300 p-2">{cow.breed}</td>
-              <td className="border border-gray-300 p-2">{cow.dob}</td>
-              <td className="border border-gray-300 p-2">{cow.dam}</td>
-              <td className="border border-gray-300 p-2">{cow.sire}</td>
-              <td className="border border-gray-300 p-2">{cow.sex}</td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Tag#</th>
+              <th className="border border-gray-300 p-2">Breed</th>
+              <th className="border border-gray-300 p-2 hidden sm:table-cell">
+                DOB
+              </th>
+              <th className="border border-gray-300 p-2 hidden sm:table-cell">
+                Age
+              </th>
+              <th className="border border-gray-300 p-2 hidden md:table-cell">
+                Dam
+              </th>
+              <th className="border border-gray-300 p-2 hidden md:table-cell">
+                Sire
+              </th>
+              <th className="border border-gray-300 p-2">Sex</th>
+              <th className="border border-gray-300 p-2 hidden lg:table-cell">
+                Color
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="text-center">
+            {displayedCows.map((cow) => (
+              <tr key={cow._id} className="border border-gray-300">
+                <td className="border border-gray-300 p-2">{cow.tag}</td>
+                <td className="border border-gray-300 p-2">{cow.breed}</td>
+                <td className="border border-gray-300 p-2 hidden sm:table-cell">
+                  {formatDate(cow.dob)}
+                </td>
+                <td className="border border-gray-300 p-2 hidden sm:table-cell">
+                  {calculateFullAge(cow.dob)}
+                </td>
+                <td className="border border-gray-300 p-2 hidden md:table-cell">
+                  {cow.dam}
+                </td>
+                <td className="border border-gray-300 p-2 hidden md:table-cell">
+                  {cow.sire}
+                </td>
+                <td className="border border-gray-300 p-2">{cow.sex}</td>
+                <td className="border border-gray-300 p-2 hidden lg:table-cell">
+                  {cow.color}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="flex justify-between mt-4">
         <span>
