@@ -7,6 +7,8 @@ import { LuMilk } from "react-icons/lu";
 import { BiInjection } from "react-icons/bi";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import { CiLogout } from "react-icons/ci";
+import { useAuth } from "../context/AuthContext";
 
 const sidebarItems = [
   { to: "/", icon: MdDashboard, label: "Dashboard" },
@@ -20,6 +22,12 @@ const Sidebar = () => {
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
+  };
+
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -46,6 +54,7 @@ const Sidebar = () => {
           </Link>
         ))}
       </nav>
+      <CiLogout onClick={handleLogout} />
     </div>
   );
 };
