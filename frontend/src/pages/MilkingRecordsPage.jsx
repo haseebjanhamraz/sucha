@@ -56,6 +56,11 @@ const MilkingRecordsPage = () => {
     currentPage * pageSize + pageSize
   );
 
+  const totalQuantity = filteredMilkRecords.reduce(
+    (acc, record) => acc + record.quantity,
+    0
+  );
+
   return (
     <>
       <div
@@ -83,6 +88,7 @@ const MilkingRecordsPage = () => {
           <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">
             <thead>
               <tr>
+                <th className="border border-gray-300 p-2">S.No</th>
                 <th className="border border-gray-300 p-2">Tag#</th>
                 <th className="border border-gray-300 p-2">Date</th>
                 <th className="border border-gray-300 p-2 hidden sm:table-cell">
@@ -94,8 +100,11 @@ const MilkingRecordsPage = () => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {displayedMilk.map((milk) => (
+              {displayedMilk.map((milk, index) => (
                 <tr key={milk._id} className="border border-gray-300">
+                  <td className="border border-gray-300 p-2">
+                    {currentPage * pageSize + index + 1}
+                  </td>
                   <td className="border border-gray-300 p-2">
                     {milk.animalId ? milk.animalId.tag : "Animal ID not found"}
                   </td>
@@ -111,6 +120,17 @@ const MilkingRecordsPage = () => {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td className="border border-gray-300 p-2 font-bold">Total</td>
+                <td className="border border-gray-300 p-2"></td>
+                <td className="border border-gray-300 p-2 hidden sm:table-cell"></td>
+                <td className="border border-gray-300 p-2 hidden sm:table-cell"></td>
+                <td className="border border-gray-300 p-2 hidden sm:table-cell font-bold">
+                  {totalQuantity}
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
 
