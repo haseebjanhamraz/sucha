@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useTheme } from "../ThemeContext";
-import { calculateFullAge } from "../utils/calculateAge";
 import { formatDate } from "../utils/formatDate";
 
 const MilkingRecordsPage = () => {
@@ -48,7 +47,7 @@ const MilkingRecordsPage = () => {
   if (error) return <div className="text-red-500">{error}</div>;
 
   const filteredMilkRecords = milk.filter((record) =>
-    record.animalId.toLowerCase().includes(searchInput.toLowerCase())
+    record.animalId?.tag.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredMilkRecords.length / pageSize);
@@ -98,7 +97,7 @@ const MilkingRecordsPage = () => {
               {displayedMilk.map((milk) => (
                 <tr key={milk._id} className="border border-gray-300">
                   <td className="border border-gray-300 p-2">
-                    {milk.animalId}
+                    {milk.animalId ? milk.animalId.tag : "Animal ID not found"}
                   </td>
                   <td className="border border-gray-300 p-2">
                     {formatDate(milk.date)}

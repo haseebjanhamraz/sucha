@@ -1,15 +1,25 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const MilkRecordSchema = new Schema({
-  animalId: { type: Schema.Types.ObjectId, ref: "Animal", required: true },
-  date: { type: Date, required: true },
-  time: {
-    type: String,
-    enum: ["morning", "afternoon", "evening"],
+const milkRecordSchema = new mongoose.Schema({
+  animalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Animal",
     required: true,
   },
-  quantity: { type: Number, required: true }, // quantity in liters
+  date: {
+    type: Date,
+    required: true,
+  },
+  time: {
+    type: String,
+    required: true,
+    enum: ["morning", "afternoon", "evening"],
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model("MilkRecord", MilkRecordSchema);
+const MilkRecord = mongoose.model("MilkRecord", milkRecordSchema);
+module.exports = MilkRecord;

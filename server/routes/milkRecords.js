@@ -47,11 +47,12 @@ router.post(
   }
 );
 
+// Get all milk records with animal tag
 router.get("/", validateToken, async (req, res) => {
   try {
-    const milkRecords = await MilkRecord.find();
+    const milkRecords = await MilkRecord.find().populate("animalId", "tag");
 
-    if (!milkRecords) {
+    if (!milkRecords || milkRecords.length === 0) {
       return res.status(404).json({ message: "No milk records found" });
     }
 
