@@ -1,10 +1,10 @@
-// src/pages/CowsPage.jsx
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useTheme } from "../ThemeContext";
 import { calculateFullAge } from "../utils/calculateAge";
 import { formatDate } from "../utils/formatDate";
+import { Link } from "react-router-dom";
 
 const CowsPage = () => {
   const { theme } = useTheme();
@@ -69,9 +69,16 @@ const CowsPage = () => {
           </span>
         </h1>
 
+        <Link
+          to="/cows/add"
+          className="p-2 bg-blue-500 text-white rounded mb-4 inline-block"
+        >
+          Add Cow
+        </Link>
+
         <input
           type="text"
-          placeholder="Search by name"
+          placeholder="Search by tag"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           className="mb-4 p-2 border border-gray-300 rounded"
@@ -98,6 +105,7 @@ const CowsPage = () => {
                 <th className="border border-gray-300 p-2 hidden lg:table-cell">
                   Color
                 </th>
+                <th className="border border-gray-300 p-2">Actions</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -120,6 +128,14 @@ const CowsPage = () => {
                   <td className="border border-gray-300 p-2">{cow.sex}</td>
                   <td className="border border-gray-300 p-2 hidden lg:table-cell">
                     {cow.color}
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <Link
+                      to={`/cows/edit/${cow._id}`}
+                      className="p-1 bg-yellow-500 text-white rounded"
+                    >
+                      Edit
+                    </Link>
                   </td>
                 </tr>
               ))}

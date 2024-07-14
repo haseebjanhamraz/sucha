@@ -6,14 +6,15 @@ import DashboardPage from "../pages/DashboardPage";
 import CowsPage from "../pages/CowsPage";
 import MilkingRecordsPage from "../pages/MilkingRecordsPage";
 import VaccinationRecordsPage from "../pages/VaccinationRecordsPage";
-import Login from "../pages/Login"; // Import the Login component
-import ProtectedRoute from "../components/ProtectedRoute"; // Import ProtectedRoute
+import Login from "../pages/Login";
+import ProtectedRoute from "../components/ProtectedRoute";
+import AddEditCowPage from "../pages/AddEditCowPage";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} /> {/* Add Login route */}
+        <Route path="/login" element={<Login />} />
         <Route
           path="/"
           element={
@@ -30,6 +31,26 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Dashboard>
                 <CowsPage />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cows/add"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <AddEditCowPage />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cows/edit/:id"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <AddEditCowPage />
               </Dashboard>
             </ProtectedRoute>
           }
