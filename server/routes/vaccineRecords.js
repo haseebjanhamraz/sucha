@@ -40,7 +40,7 @@ router.post("/", validateVaccineRecord, authenticateJWT, async (req, res) => {
 });
 
 // Get all vaccine records for a specific animal
-router.get("/animal/:id", async (req, res) => {
+router.get("/animal/:id", authenticateJWT, async (req, res) => {
   try {
     const vaccineRecords = await VaccineRecord.find({
       animalId: req.params.id,

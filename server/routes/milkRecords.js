@@ -46,6 +46,21 @@ router.post(
     }
   }
 );
+
+router.get("/", validateToken, async (req, res) => {
+  try {
+    const milkRecords = await MilkRecord.find();
+
+    if (!milkRecords) {
+      return res.status(404).json({ message: "No milk records found" });
+    }
+
+    res.status(200).json(milkRecords);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 router.get("/:animalId", validateToken, async (req, res) => {
   try {
     const animalId = req.params.animalId;
