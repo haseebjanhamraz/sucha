@@ -81,7 +81,7 @@ const Sidebar = () => {
           <Link
             key={index}
             to={item.to}
-            className={`p-4 border-[0.5px] border-blue-500 hover:bg-blue-900 hover:text-white flex items-center ${
+            className={`p-2 border-[0.5px] border-blue-500 hover:bg-blue-900 hover:text-white flex items-center ${
               location.pathname === item.to ? "bg-blue-600 text-white" : ""
             }`}
           >
