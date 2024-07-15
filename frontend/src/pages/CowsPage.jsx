@@ -87,6 +87,7 @@ const CowsPage = () => {
           <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">
             <thead>
               <tr>
+                <th className="border border-gray-300 p-2">S#</th>
                 <th className="border border-gray-300 p-2">Tag#</th>
                 <th className="border border-gray-300 p-2">Breed</th>
                 <th className="border border-gray-300 p-2 hidden sm:table-cell">
@@ -109,8 +110,11 @@ const CowsPage = () => {
               </tr>
             </thead>
             <tbody className="text-center">
-              {displayedCows.map((cow) => (
+              {displayedCows.map((cow, index) => (
                 <tr key={cow._id} className="border border-gray-300">
+                  <td className="border border-gray-300 p-2">
+                    {currentPage * pageSize + index + 1}
+                  </td>
                   <td className="border border-gray-300 p-2">{cow.tag}</td>
                   <td className="border border-gray-300 p-2">{cow.breed}</td>
                   <td className="border border-gray-300 p-2 hidden sm:table-cell">
