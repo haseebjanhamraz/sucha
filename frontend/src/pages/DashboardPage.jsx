@@ -1,11 +1,13 @@
-// src/pages/DashboardPage.jsx
-import React from "react";
+import React, { useState } from "react";
+import MilkingRecordsPage from "./MilkingRecordsPage";
+import MilkCard from "../components/cards/MilkCard";
 
 const DashboardPage = () => {
+  const [totalMilk, setQuantity] = useState(0);
+
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-      {/* Add your dashboard content here */}
+      <MilkCard totalMilk={totalMilk} />
     </div>
   );
 };

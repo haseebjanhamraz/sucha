@@ -4,7 +4,7 @@ import axios from "axios";
 import { useTheme } from "../ThemeContext";
 import { formatDate } from "../utils/formatDate";
 
-const MilkingRecordsPage = () => {
+const MilkingRecordsPage = ({}) => {
   const { theme } = useTheme();
   const { token } = useAuth();
   const [milk, setMilk] = useState([]);
@@ -42,7 +42,6 @@ const MilkingRecordsPage = () => {
       setLoading(false);
     }
   }, [token]);
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
 
@@ -73,7 +72,7 @@ const MilkingRecordsPage = () => {
         <h1 className="text-2xl font-bold mb-6">
           Milk Records
           <span className="inline-flex items-center rounded-md bg-blue-50 mx-1 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
-            {milk.length}
+            {totalQuantity}
           </span>
         </h1>
 

@@ -68,7 +68,7 @@ const Sidebar = () => {
             <img src="/logo.png" width={"100px"} />
             <span className="uppercase">Sucha Dairy Farm</span>
             <p className="text-sm font-sans font-normal">
-              Farm Management System
+              Records Management System
             </p>
           </div>
         ) : (
@@ -92,7 +92,7 @@ const Sidebar = () => {
       </nav>
       <div className="flex items-end justify-end p-4 px-8 h-full mb-5">
         <div
-          className="flex items-center gap-4 bg-slate-500 hover:bg-red-500 p-2 cursor-pointer rounded-lg"
+          className="flex items-center gap-4 hover:bg-slate-500 bg-red-500 p-2 cursor-pointer rounded-lg"
           onClick={handleLogout}
         >
           {isCollapsed ? <CiLogout /> : <p>Logout</p>}
