@@ -1,44 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import axios from "axios";
+// CowsPage.jsx
+import React, { useState } from "react";
 import { useTheme } from "../ThemeContext";
 import { calculateFullAge } from "../utils/calculateAge";
 import { formatDate } from "../utils/formatDate";
 import { Link } from "react-router-dom";
+import useCows from "../hooks/useCows";
 
 const CowsPage = () => {
   const { theme } = useTheme();
-  const { token } = useAuth();
-  const [cows, setCows] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { cows, loading, error } = useCows();
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-
-  useEffect(() => {
-    const fetchCows = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/animals", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCows(response.data.data);
-      } catch (err) {
-        setError("Failed to fetch cows. Please check your authentication.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (token) {
-      fetchCows();
-    } else {
-      setError("No authentication token found.");
-      setLoading(false);
-    }
-  }, [token]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
