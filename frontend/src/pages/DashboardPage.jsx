@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import MilkingRecordsPage from "./MilkingRecordsPage";
 import MilkCard from "../components/cards/MilkCard";
 
-const DashboardPage = () => {
-  const [totalMilk, setQuantity] = useState(0);
-
+const DashboardPage = ({ totalQuantity }) => {
   return (
     <div>
-      <MilkCard totalMilk={totalMilk} />
+      <MilkCard />
     </div>
   );
 };

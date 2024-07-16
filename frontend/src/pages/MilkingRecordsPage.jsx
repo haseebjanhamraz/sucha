@@ -3,8 +3,9 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useTheme } from "../ThemeContext";
 import { formatDate } from "../utils/formatDate";
+import MilkCard from "../components/cards/MilkCard";
 
-const MilkingRecordsPage = ({}) => {
+const MilkingRecordsPage = () => {
   const { theme } = useTheme();
   const { token } = useAuth();
   const [milk, setMilk] = useState([]);
