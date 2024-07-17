@@ -71,7 +71,7 @@ const AddEditCowPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container w-80 mx-auto p-4">
       <h2 className="text-2xl mb-4">{id ? "Edit Cow" : "Add New Cow"}</h2>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <form onSubmit={handleSubmit}>

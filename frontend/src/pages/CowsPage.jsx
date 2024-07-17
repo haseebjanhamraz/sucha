@@ -5,6 +5,7 @@ import { calculateFullAge } from "../utils/calculateAge";
 import { formatDate } from "../utils/formatDate";
 import { Link } from "react-router-dom";
 import useCows from "../hooks/useCows";
+import { IoIosAddCircle } from "react-icons/io";
 
 const CowsPage = () => {
   const { theme } = useTheme();
@@ -42,20 +43,24 @@ const CowsPage = () => {
           </span>
         </h1>
 
-        <Link
-          to="/cows/add"
-          className="p-2 bg-blue-500 text-white rounded mb-4 inline-block"
-        >
-          Add Cow
-        </Link>
-
-        <input
-          type="text"
-          placeholder="Search by tag"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          className="mb-4 p-2 border border-gray-300 rounded"
-        />
+        <div className="flex justify-between">
+          <input
+            type="text"
+            placeholder="Search by tag"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="mb-4 p-2 border border-gray-300 rounded"
+          />
+          <Link
+            to="/cows/add"
+            className="p-2 gap-2 items-center flex bg-blue-500 text-white rounded mb-4"
+          >
+            <span>
+              <IoIosAddCircle className="text-xl" />
+            </span>
+            Add New
+          </Link>
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">
             <thead>
@@ -117,6 +122,27 @@ const CowsPage = () => {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td className=" p-2 text-center font-bold">Total</td>
+                <td className=" p-2"></td>
+                <td className=" p-2 hidden sm:table-cell"></td>
+                <td className=" p-2 hidden sm:table-cell"></td>
+                <td className=" p-2 hidden sm:table-cell"></td>
+                <td className=" p-2 hidden sm:table-cell"></td>
+                <td className=" p-2 hidden sm:table-cell"></td>
+                <td className=" p-2 hidden sm:table-cell"></td>
+                <td
+                  className={` p-2 text-center font-bold ${
+                    theme === "dark"
+                      ? "bg-blue-800 text-white"
+                      : "bg-blue-200 text-gray-800"
+                  }`}
+                >
+                  {cows.length}
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
 

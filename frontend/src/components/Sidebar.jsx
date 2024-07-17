@@ -92,7 +92,7 @@ const Sidebar = () => {
       </nav>
       <div className="flex items-end justify-end p-4 px-8 h-full mb-5">
         <div
-          className="flex items-center gap-4 hover:bg-slate-500 bg-red-500 p-2 cursor-pointer rounded-lg"
+          className="text-white hover:text-red-500 flex items-center gap-4 hover:bg-slate-300 bg-red-500 p-2 cursor-pointer rounded-lg"
           onClick={handleLogout}
         >
           {isCollapsed ? <CiLogout /> : <p>Logout</p>}
