@@ -3,11 +3,12 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const { authenticateJWT } = require("../middlewares/authMiddleware");
 const VaccinesList = require("../models/VaccinesList");
+const validateToken = require("../middlewares/validateToken");
 
 // Add a vaccine to the database
 router.post(
   "/",
-  authenticateJWT,
+  validateToken,
   [
     body("name").notEmpty().withMessage("Name is required"),
     body("expirydate").notEmpty().withMessage("Expiry date is required"),
@@ -35,7 +36,7 @@ router.post(
 );
 
 // Route to fetch all vaccines
-router.get("/", authenticateJWT, async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
   try {
     const vaccines = await VaccinesList.find();
     res.json(vaccines);

@@ -9,6 +9,7 @@ import VaccinationRecordsPage from "../pages/VaccinationRecordsPage";
 import Login from "../pages/Login";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AddEditCowPage from "../pages/AddEditCowPage";
+import VaccinesList from "../pages/VaccinesList";
 
 const AppRoutes = () => {
   return (
