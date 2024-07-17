@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import ConfirmAlert from "../components/ConfirmAlert";
 import { formatDate } from "../utils/formatDate";
 
 const AddEditCowPage = () => {
@@ -20,6 +21,7 @@ const AddEditCowPage = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -47,6 +49,20 @@ const AddEditCowPage = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:8080/api/animals/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      enqueueSnackbar("Cow deleted successfully!");
+      navigate("/cows");
+    } catch (err) {
+      enqueueSnackbar("Failed to delete cow.");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -143,14 +159,35 @@ const AddEditCowPage = () => {
           className="mb-2 p-2 border border-gray-300 rounded w-full"
           required
         />
-        <button
-          type="submit"
-          className="p-2 bg-blue-500 text-white rounded w-full"
-          disabled={loading}
-        >
-          {loading ? "Saving..." : id ? "Update Cow" : "Add Cow"}
-        </button>
+        <div className="flex justify-between mt-4">
+          <button
+            type="submit"
+            className="p-2 bg-blue-500 text-white rounded w-full"
+            disabled={loading}
+          >
+            {loading ? "Saving..." : id ? "Update Cow" : "Add Cow"}
+          </button>
+          {id && (
+            <button
+              type="button"
+              className="p-2 bg-red-500 text-white rounded w-full ml-4"
+              onClick={() => setShowConfirm(true)}
+            >
+              Delete Cow
+            </button>
+          )}
+        </div>
       </form>
+      {showConfirm && (
+        <ConfirmAlert
+          message="Are you sure you want to delete this cow?"
+          onConfirm={() => {
+            handleDelete();
+            setShowConfirm(false);
+          }}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
       <SnackbarProvider />
     </div>
   );

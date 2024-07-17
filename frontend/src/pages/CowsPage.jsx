@@ -6,17 +6,14 @@ import { formatDate } from "../utils/formatDate";
 import { Link } from "react-router-dom";
 import useCows from "../hooks/useCows";
 import { IoIosAddCircle } from "react-icons/io";
-import useDeleteCow from "../hooks/useDeleteCow";
+
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { MdEditSquare } from "react-icons/md";
 
 const CowsPage = () => {
   const { theme } = useTheme();
   const { cows, loading, error } = useCows();
-  const {
-    deleteCow,
-    loading: deleteLoading,
-    error: deleteError,
-  } = useDeleteCow();
+
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -33,14 +30,9 @@ const CowsPage = () => {
     currentPage * pageSize,
     currentPage * pageSize + pageSize
   );
-  const handleDelete = async (cowId) => {
-    await deleteCow(cowId);
-    window.location.reload(); // Refresh the page or update the state to reflect changes
-    enqueueSnackbar("Deleted Successfully!");
-  };
+
   return (
     <>
-      {deleteError && <div className="text-red-500">{deleteError}</div>}
       <SnackbarProvider />
       <div
         className={`${
@@ -124,21 +116,13 @@ const CowsPage = () => {
                   <td className="border border-gray-300 p-2 hidden lg:table-cell">
                     {cow.color}
                   </td>
-                  <td className="border border-gray-300 p-2">
-                    <Link
-                      to={`/cows/edit/${cow._id}`}
-                      className="p-1 bg-yellow-500 text-white rounded"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(cow._id)}
-                      className="p-1 bg-red-500 text-white rounded ml-2"
-                      disabled={deleteLoading}
-                    >
-                      Delete
-                    </button>
-                  </td>
+                  <div>
+                    <td className="flex gap-2 border border-gray-300 p-2">
+                      <Link to={`/cows/edit/${cow._id}`}>
+                        <MdEditSquare />
+                      </Link>
+                    </td>
+                  </div>
                 </tr>
               ))}
             </tbody>
