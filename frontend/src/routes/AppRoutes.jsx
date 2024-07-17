@@ -9,6 +9,7 @@ import VaccinationRecordsPage from "../pages/VaccinationRecordsPage";
 import Login from "../pages/Login";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AddEditCowPage from "../pages/AddEditCowPage";
+import SingleCow from "../pages/SingleCow";
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Dashboard>
                 <CowsPage />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cows/:id"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <SingleCow />
               </Dashboard>
             </ProtectedRoute>
           }

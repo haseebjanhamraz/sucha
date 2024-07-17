@@ -1,22 +1,22 @@
-// CowsPage.jsx
+// src/pages/CowsPage.jsx
 import React, { useState } from "react";
 import { useTheme } from "../ThemeContext";
 import { calculateFullAge } from "../utils/calculateAge";
 import { formatDate } from "../utils/formatDate";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useCows from "../hooks/useCows";
 import { IoIosAddCircle } from "react-icons/io";
-
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import { MdEditSquare } from "react-icons/md";
+import { IoEye } from "react-icons/io5";
 
 const CowsPage = () => {
   const { theme } = useTheme();
   const { cows, loading, error } = useCows();
-
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const navigate = useNavigate();
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
@@ -30,6 +30,10 @@ const CowsPage = () => {
     currentPage * pageSize,
     currentPage * pageSize + pageSize
   );
+
+  const handleView = (id) => {
+    navigate(`/cows/${id}`);
+  };
 
   return (
     <>
@@ -116,28 +120,29 @@ const CowsPage = () => {
                   <td className="border border-gray-300 p-2 hidden lg:table-cell">
                     {cow.color}
                   </td>
-                  <div>
-                    <td className="flex gap-2 border border-gray-300 p-2">
-                      <Link to={`/cows/edit/${cow._id}`}>
-                        <MdEditSquare />
-                      </Link>
-                    </td>
-                  </div>
+                  <td className="flex gap-2 border border-gray-300 p-2">
+                    <Link to={`/cows/edit/${cow._id}`}>
+                      <MdEditSquare />
+                    </Link>
+                    <button onClick={() => handleView(cow._id)}>
+                      <IoEye />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
               <tr>
-                <td className=" p-2 text-center font-bold">Total</td>
-                <td className=" p-2"></td>
-                <td className=" p-2 hidden sm:table-cell"></td>
-                <td className=" p-2 hidden sm:table-cell"></td>
-                <td className=" p-2 hidden sm:table-cell"></td>
-                <td className=" p-2 hidden sm:table-cell"></td>
-                <td className=" p-2 hidden sm:table-cell"></td>
-                <td className=" p-2 hidden sm:table-cell"></td>
+                <td className="p-2 text-center font-bold">Total</td>
+                <td className="p-2"></td>
+                <td className="p-2 hidden sm:table-cell"></td>
+                <td className="p-2 hidden sm:table-cell"></td>
+                <td className="p-2 hidden sm:table-cell"></td>
+                <td className="p-2 hidden sm:table-cell"></td>
+                <td className="p-2 hidden sm:table-cell"></td>
+                <td className="p-2 hidden sm:table-cell"></td>
                 <td
-                  className={` p-2 text-center font-bold ${
+                  className={`p-2 text-center font-bold ${
                     theme === "dark"
                       ? "bg-blue-800 text-white"
                       : "bg-blue-200 text-gray-800"
