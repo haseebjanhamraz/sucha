@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { formatDate } from "../utils/formatDate";
 
 const AddEditCowPage = () => {
   const { token } = useAuth();
@@ -32,7 +33,9 @@ const AddEditCowPage = () => {
               },
             }
           );
-          setFormData(response.data);
+          const cowData = response.data;
+          cowData.dob = formatDate(cowData.dob); // Format date correctly
+          setFormData(cowData);
         } catch (err) {
           setError("Failed to fetch cow data.");
         }
@@ -66,7 +69,7 @@ const AddEditCowPage = () => {
       enqueueSnackbar("Added Successfully!");
       navigate("/cows");
     } catch (err) {
-      setError("Failed to save cow data.");
+      enqueueSnackbar("Failed to save cow data.");
     } finally {
       setLoading(false);
     }
