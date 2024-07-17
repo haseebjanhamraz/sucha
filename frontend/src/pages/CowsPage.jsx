@@ -6,10 +6,17 @@ import { formatDate } from "../utils/formatDate";
 import { Link } from "react-router-dom";
 import useCows from "../hooks/useCows";
 import { IoIosAddCircle } from "react-icons/io";
+import useDeleteCow from "../hooks/useDeleteCow";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 const CowsPage = () => {
   const { theme } = useTheme();
   const { cows, loading, error } = useCows();
+  const {
+    deleteCow,
+    loading: deleteLoading,
+    error: deleteError,
+  } = useDeleteCow();
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -26,9 +33,15 @@ const CowsPage = () => {
     currentPage * pageSize,
     currentPage * pageSize + pageSize
   );
-
+  const handleDelete = async (cowId) => {
+    await deleteCow(cowId);
+    window.location.reload(); // Refresh the page or update the state to reflect changes
+    enqueueSnackbar("Deleted Successfully!");
+  };
   return (
     <>
+      {deleteError && <div className="text-red-500">{deleteError}</div>}
+      <SnackbarProvider />
       <div
         className={`${
           theme === "dark"
@@ -118,6 +131,13 @@ const CowsPage = () => {
                     >
                       Edit
                     </Link>
+                    <button
+                      onClick={() => handleDelete(cow._id)}
+                      className="p-1 bg-red-500 text-white rounded ml-2"
+                      disabled={deleteLoading}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

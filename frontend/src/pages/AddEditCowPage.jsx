@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 const AddEditCowPage = () => {
   const { token } = useAuth();
@@ -62,6 +63,7 @@ const AddEditCowPage = () => {
           },
         });
       }
+      enqueueSnackbar("Added Successfully!");
       navigate("/cows");
     } catch (err) {
       setError("Failed to save cow data.");
@@ -146,6 +148,7 @@ const AddEditCowPage = () => {
           {loading ? "Saving..." : id ? "Update Cow" : "Add Cow"}
         </button>
       </form>
+      <SnackbarProvider />
     </div>
   );
 };
