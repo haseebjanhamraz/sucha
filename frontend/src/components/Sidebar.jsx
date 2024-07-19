@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
@@ -10,12 +9,38 @@ import { IoClose } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../ThemeContext";
+import { PiDnaBold } from "react-icons/pi";
+import { GrCertificate } from "react-icons/gr";
+import { IoMdSettings } from "react-icons/io";
 
 const sidebarItems = [
   { to: "/", icon: MdDashboard, label: "Dashboard" },
-  { to: "/cows", icon: GiCow, label: "Cows" },
+  {
+    to: "/cows",
+    icon: GiCow,
+    label: "Cattle",
+    subItems: [
+      { to: "/cows/pushai", icon: PiDnaBold, label: "Push AI Semens" },
+      {
+        to: "/cows/inject-vaccines",
+        icon: BiInjection,
+        label: "Inject Vaccines",
+      },
+      {
+        to: "/cows/pregnant-cows",
+        icon: GiCow,
+        label: "Pregnant Cows",
+      },
+      {
+        to: "/cows/pedigree-certificate",
+        icon: GrCertificate,
+        label: "Pedigree Certificate",
+      },
+    ],
+  },
   { to: "/milking-records", icon: LuMilk, label: "Milking" },
   { to: "/vaccination-records", icon: BiInjection, label: "Vaccination" },
+  { to: "/settings", icon: IoMdSettings, label: "Settings" },
 ];
 
 const Sidebar = () => {
@@ -25,6 +50,7 @@ const Sidebar = () => {
   );
   const location = useLocation();
   const { logout } = useAuth();
+  const [activeItem, setActiveItem] = useState(null);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -49,13 +75,17 @@ const Sidebar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setActiveItem(location.pathname);
+  }, [location.pathname]);
+
   return (
     <div
       className={`h-full border-2 ${
         theme === "dark"
           ? "bg-gray-900 text-blue-400 border-blue-500 "
           : "bg-blue-500 text-white"
-      }  flex flex-col ${isCollapsed ? "w-20 items-center" : "w-64"}`}
+      } flex flex-col ${isCollapsed ? "w-20 items-center" : "w-64"}`}
     >
       <div className="flex justify-end p-2">
         <button onClick={toggleSidebar} className="text-xl">
@@ -78,16 +108,44 @@ const Sidebar = () => {
 
       <nav className="flex flex-col mt-4">
         {sidebarItems.map((item, index) => (
-          <Link
-            key={index}
-            to={item.to}
-            className={`p-2 border-[0.5px] border-blue-500 hover:bg-blue-900 hover:text-white flex items-center ${
-              location.pathname === item.to ? "bg-blue-600 text-white" : ""
-            }`}
-          >
-            <item.icon className="text-2xl" />
-            {!isCollapsed && <p className="ml-2 text-lg">{item.label}</p>}
-          </Link>
+          <div key={index}>
+            <Link
+              to={item.to}
+              className={`p-2 border-[0.5px] border-blue-500 hover:bg-blue-900 hover:text-white flex items-center ${
+                (item.to === "/" && location.pathname === "/") ||
+                (item.to !== "/" && location.pathname.startsWith(item.to))
+                  ? "bg-blue-600 text-white"
+                  : ""
+              }`}
+              onClick={() => setActiveItem(item.to)}
+            >
+              <item.icon className="text-2xl" />
+              {!isCollapsed && <p className="ml-2 text-lg">{item.label}</p>}
+            </Link>
+            {activeItem &&
+              activeItem.startsWith(item.to) &&
+              item.subItems &&
+              item.subItems.map((subItem, subIndex) => (
+                <Link
+                  key={subIndex}
+                  to={subItem.to}
+                  className={`p-2 pl-10  hover:bg-blue-700 hover:text-white flex items-center ${
+                    location.pathname === subItem.to
+                      ? ` ${
+                          theme === "dark"
+                            ? "bg-blue-500 text-white"
+                            : "bg-blue-700 text-white"
+                        }`
+                      : ""
+                  }`}
+                >
+                  <subItem.icon className="text-lg" />
+                  {!isCollapsed && (
+                    <p className="ml-2 text-sm">{subItem.label}</p>
+                  )}
+                </Link>
+              ))}
+          </div>
         ))}
       </nav>
       <div className="flex items-end justify-end p-4 px-8 h-full mb-5">

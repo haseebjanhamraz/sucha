@@ -10,6 +10,7 @@ import Login from "../pages/Login";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AddEditCowPage from "../pages/AddEditCowPage";
 import SingleCow from "../pages/SingleCow";
+import PushAiSemens from "../pages/PushAISemens";
 
 const AppRoutes = () => {
   return (
@@ -62,6 +63,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Dashboard>
                 <AddEditCowPage />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cows/pushai/"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <PushAiSemens />
               </Dashboard>
             </ProtectedRoute>
           }
