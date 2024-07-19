@@ -12,6 +12,7 @@ import { useTheme } from "../ThemeContext";
 import { PiDnaBold } from "react-icons/pi";
 import { GrCertificate } from "react-icons/gr";
 import { IoMdSettings } from "react-icons/io";
+import { FaUserCircle } from "react-icons/fa";
 
 const sidebarItems = [
   { to: "/", icon: MdDashboard, label: "Dashboard" },
@@ -39,8 +40,15 @@ const sidebarItems = [
     ],
   },
   { to: "/milking-records", icon: LuMilk, label: "Milking" },
-  { to: "/vaccination-records", icon: BiInjection, label: "Vaccination" },
-  { to: "/settings", icon: IoMdSettings, label: "Settings" },
+  {
+    to: "/settings",
+    icon: IoMdSettings,
+    label: "Settings",
+    subItems: [
+      { to: "/settings/profile", icon: FaUserCircle, label: "Profile" },
+      { to: "/settings/vaccines", icon: BiInjection, label: "Vaccines" },
+    ],
+  },
 ];
 
 const Sidebar = () => {

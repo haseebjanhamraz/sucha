@@ -11,6 +11,9 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import AddEditCowPage from "../pages/AddEditCowPage";
 import SingleCow from "../pages/SingleCow";
 import PushAiSemens from "../pages/PushAISemens";
+import Settings from "../pages/Settings";
+import Profile from "../pages/Profile";
+import Vaccines from "../pages/Vaccines";
 
 const AppRoutes = () => {
   return (
@@ -93,6 +96,37 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Dashboard>
                 <VaccinationRecordsPage />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <Settings />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/profile"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <Profile />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/vaccines"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <Vaccines />
               </Dashboard>
             </ProtectedRoute>
           }
