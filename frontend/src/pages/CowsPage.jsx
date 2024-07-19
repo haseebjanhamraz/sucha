@@ -120,7 +120,7 @@ const CowsPage = () => {
                   <td className="border border-gray-300 p-2 hidden lg:table-cell">
                     {cow.color}
                   </td>
-                  <td className="flex gap-2 border border-gray-300 p-2">
+                  <td className="flex gap-2 p-2">
                     <Link to={`/cows/edit/${cow._id}`}>
                       <MdEditSquare />
                     </Link>
