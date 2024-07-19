@@ -141,6 +141,7 @@ const CowsPage = () => {
                 <td className="p-2 hidden sm:table-cell"></td>
                 <td className="p-2 hidden sm:table-cell"></td>
                 <td className="p-2 hidden sm:table-cell"></td>
+                <td className="p-2 hidden sm:table-cell"></td>
                 <td
                   className={`p-2 text-center font-bold ${
                     theme === "dark"

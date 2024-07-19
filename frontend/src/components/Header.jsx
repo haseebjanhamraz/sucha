@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <header className="w-full shadow p-4 flex justify-between items-center">
-      <div className="text-xl font-bold">Dashboard</div>
+      <div className="text-xl font-bold"></div>
       <div className="flex items-center">
         <button
           className="p-2 rounded-full text-gray-800 hover:bg-gray-100"
