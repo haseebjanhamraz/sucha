@@ -3,10 +3,12 @@ import React from "react";
 import { useTheme } from "../ThemeContext";
 import { FaRegSun } from "react-icons/fa6";
 import { FaMoon } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
-
+  const { token } = useAuth();
+  console.log();
   return (
     <header className="w-full shadow p-4 flex justify-between items-center">
       <div className="text-xl font-bold"></div>

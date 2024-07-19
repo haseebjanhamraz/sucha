@@ -13,13 +13,20 @@ const DashboardPage = () => {
   } = useMilkRecords();
   const { cows, loading: cowsLoading, error: cowsError } = useCows();
 
+  const female = cows.filter((cows) => cows.sex === "female");
+  const male = cows.filter((cows) => cows.sex === "male");
+
   if (milkLoading || cowsLoading) return <div>Loading...</div>;
   if (milkError) return <div className="text-red-500">{milkError}</div>;
   if (cowsError) return <div className="text-red-500">{cowsError}</div>;
 
   return (
     <div className="flex flex-wrap gap-4 p-4 items-stretch">
-      <CowCountCard count={cows.length} />
+      <CowCountCard
+        count={cows.length}
+        female={female.length}
+        male={male.length}
+      />
       <MilkCard totalQuantity={totalQuantity} />
     </div>
   );
