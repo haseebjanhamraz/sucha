@@ -4,7 +4,7 @@ import { ThemeProvider } from "./ThemeContext";
 import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
 import { checkTokenExpiry } from "./utils/tokenUtils";
-import { Navigate } from "react-router-dom";
+
 function App() {
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -14,7 +14,6 @@ function App() {
           // Handle the case where the token is invalid or expired
           console.log("Token is expired or invalid");
         }
-        Navigate("/login");
       });
     }
   }, []);
