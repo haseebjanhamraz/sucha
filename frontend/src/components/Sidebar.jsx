@@ -47,6 +47,7 @@ const sidebarItems = [
     subItems: [
       { to: "/settings/profile", icon: FaUserCircle, label: "Profile" },
       { to: "/settings/vaccines", icon: BiInjection, label: "Vaccines" },
+      { to: "/settings/ai-semens", icon: PiDnaBold, label: "AI Semens" },
     ],
   },
 ];

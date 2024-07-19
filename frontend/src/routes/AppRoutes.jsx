@@ -14,6 +14,7 @@ import PushAiSemens from "../pages/PushAISemens";
 import Settings from "../pages/Settings";
 import Profile from "../pages/Profile";
 import Vaccines from "../pages/Vaccines";
+import AiSemens from "../pages/AiSemens";
 
 const AppRoutes = () => {
   return (
@@ -127,6 +128,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Dashboard>
                 <Vaccines />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/ai-semens"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <AiSemens />
               </Dashboard>
             </ProtectedRoute>
           }
