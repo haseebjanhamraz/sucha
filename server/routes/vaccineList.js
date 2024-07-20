@@ -46,7 +46,7 @@ router.get("/", validateToken, async (req, res) => {
 });
 
 // PUT route to update a vaccine record by ID
-router.put("/:id", authenticateJWT, async (req, res) => {
+router.put("/:id", validateToken, async (req, res) => {
   try {
     const vaccine = await VaccinesList.findById(req.params.id);
     if (!vaccine) {
@@ -66,7 +66,7 @@ router.put("/:id", authenticateJWT, async (req, res) => {
 });
 
 // DELETE route to delete a vaccine record by ID
-router.delete("/:id", authenticateJWT, async (req, res) => {
+router.delete("/:id", validateToken, async (req, res) => {
   try {
     const vaccine = await VaccinesList.findById(req.params.id);
     if (!vaccine) {
