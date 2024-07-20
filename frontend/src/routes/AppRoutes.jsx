@@ -15,6 +15,7 @@ import Settings from "../pages/Settings";
 import Profile from "../pages/Profile";
 import Vaccines from "../pages/Vaccines";
 import AiSemens from "../pages/AiSemens";
+import AddMilkRecordPage from "../pages/AddMilkRecordPage";
 
 const AppRoutes = () => {
   return (
@@ -57,6 +58,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Dashboard>
                 <AddEditCowPage />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/milking-records/add"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <AddMilkRecordPage />
               </Dashboard>
             </ProtectedRoute>
           }

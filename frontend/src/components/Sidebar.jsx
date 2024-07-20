@@ -39,7 +39,18 @@ const sidebarItems = [
       },
     ],
   },
-  { to: "/milking-records", icon: LuMilk, label: "Milking" },
+  {
+    to: "/milking-records",
+    icon: LuMilk,
+    label: "Milking",
+    subItems: [
+      {
+        to: "/milking-records/add",
+        icon: IoMdSettings,
+        label: "Add Milk Record",
+      },
+    ],
+  },
   {
     to: "/settings",
     icon: IoMdSettings,

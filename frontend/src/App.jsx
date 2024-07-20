@@ -4,6 +4,7 @@ import { ThemeProvider } from "./ThemeContext";
 import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
 import { checkTokenExpiry } from "./utils/tokenUtils";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 function App() {
   useEffect(() => {
@@ -21,9 +22,11 @@ function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <div className="App">
-          <AppRoutes />
-        </div>
+        <SnackbarProvider>
+          <div className="App">
+            <AppRoutes />
+          </div>
+        </SnackbarProvider>
       </ThemeProvider>
     </AuthProvider>
   );
