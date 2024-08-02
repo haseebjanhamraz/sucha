@@ -56,9 +56,6 @@ const SingleCowPage = () => {
           }
         );
         setVaccineRecord(response.data);
-        const data = response.data;
-
-        setVaccineData(data);
       } catch (err) {
         setError("Failed to fetch cow data.");
       }
@@ -208,7 +205,6 @@ const SingleCowPage = () => {
             <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 p-2">S.No</th>
                   <th className="border border-gray-300 p-2">Date</th>
                   <th className="border border-gray-300 p-2 hidden sm:table-cell">
                     Vaccine
@@ -219,9 +215,6 @@ const SingleCowPage = () => {
                 {vaccineRecord.map((vaccine, index) => (
                   <tr key={vaccine._id} className="border border-gray-300">
                     <td className="border border-gray-300 p-2">
-                      {indexOfFirstRecord + index + 1}
-                    </td>
-                    <td className="border border-gray-300 p-2">
                       {formatDate(vaccine.date)}
                     </td>
                     <td className="border border-gray-300 p-2 hidden sm:table-cell">
@@ -230,36 +223,9 @@ const SingleCowPage = () => {
                   </tr>
                 ))}
               </tbody>
-              <tfoot>
-                <tr>
-                  <td className="border border-gray-300 p-2 font-bold">
-                    Total
-                  </td>
-                  <td className="border border-gray-300 p-2"></td>
-
-                  <td className="border border-gray-300 p-2 hidden sm:table-cell">
-                    {totalQuantity}
-                  </td>
-                </tr>
-              </tfoot>
             </table>
           </div>
         )}
-        <div className="pagination mt-4">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => paginate(i + 1)}
-              className={`px-3 py-1 mx-1 border ${
-                currentPage === i + 1
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-800"
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );
