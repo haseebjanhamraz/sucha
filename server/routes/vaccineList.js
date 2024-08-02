@@ -64,6 +64,17 @@ router.put("/:id", validateToken, async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+router.get("/:id", validateToken, async (req, res) => {
+  try {
+    const vaccine = await VaccinesList.findById(req.params.id);
+    if (!vaccine) {
+      return res.status(404).json({ message: "Vaccine not found" });
+    }
+    res.json(vaccine);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
 // DELETE route to delete a vaccine record by ID
 router.delete("/:id", validateToken, async (req, res) => {

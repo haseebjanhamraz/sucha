@@ -21,7 +21,7 @@ const DashboardPage = () => {
   if (cowsError) return <div className="text-red-500">{cowsError}</div>;
 
   return (
-    <div className="flex flex-wrap gap-4 p-4 items-stretch">
+    <div className="flex flex-wrap gap-4 p-4 items-stretch ">
       <CowCountCard
         count={cows.length}
         female={female.length}

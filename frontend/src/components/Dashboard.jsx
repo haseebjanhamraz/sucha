@@ -9,7 +9,7 @@ const Dashboard = ({ children }) => {
 
   return (
     <div
-      className={`flex h-screen ${
+      className={`flex h-screen overflow-auto ${
         theme === "dark"
           ? "bg-gray-900 text-blue-400"
           : "bg-gray-100 text-gray-800"

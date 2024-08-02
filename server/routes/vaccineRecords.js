@@ -4,6 +4,7 @@ const router = express.Router();
 const VaccineRecord = require("../models/VaccineRecord");
 const Animal = require("../models/Animal");
 const { authenticateJWT } = require("../middlewares/authMiddleware");
+const validateToken = require("../middlewares/validateToken");
 
 // Validation middleware for vaccine records
 
@@ -16,7 +17,7 @@ const validateVaccineRecord = [
 ];
 
 // Add a vaccine record to an animal
-router.post("/", validateVaccineRecord, authenticateJWT, async (req, res) => {
+router.post("/", validateVaccineRecord, validateToken, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -40,11 +41,25 @@ router.post("/", validateVaccineRecord, authenticateJWT, async (req, res) => {
 });
 
 // Get all vaccine records for a specific animal
-router.get("/animal/:id", authenticateJWT, async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
+  try {
+    const vaccineRecords = await VaccineRecord.find();
+    res.json(vaccineRecords);
+    console.log(`Vaccines Retrieved ${vaccineRecords}`);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get specific Animal Records
+router.get("/:id", validateToken, async (req, res) => {
   try {
     const vaccineRecords = await VaccineRecord.find({
       animalId: req.params.id,
     });
+    if (!vaccineRecords) {
+      return res.status(404).json({ message: "Vaccine records not found" });
+    }
     res.json(vaccineRecords);
   } catch (err) {
     res.status(500).json({ message: err.message });
