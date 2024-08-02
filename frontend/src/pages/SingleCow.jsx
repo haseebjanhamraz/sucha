@@ -13,6 +13,8 @@ const SingleCowPage = () => {
   const { id } = useParams();
   const { token } = useAuth();
   const [cow, setCow] = useState(null);
+  const [vaccineRecord, setVaccineRecord] = useState(null);
+  const [vaccineData, setVaccineData] = useState(null);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
