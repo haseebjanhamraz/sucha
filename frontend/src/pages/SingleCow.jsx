@@ -96,22 +96,24 @@ const SingleCowPage = () => {
   }
 
   return (
-    <div
-      className={`flex lg:flex-nowrap md:flex-wrap flex-wrap w-full mx-auto p-4 ${
-        theme === "dark"
-          ? "bg-gray-900 text-blue-400"
-          : "bg-gray-100 text-gray-800"
-      }`}
-    >
+    <>
       <BackButton />
-      <CowDetails cow={cow} totalQuantity={totalQuantity} />
-      <MilkRecords
-        milkRecords={milkRecords}
-        milkLoading={milkLoading}
-        milkError={milkError}
-      />
-      <VaccinationRecords vaccineRecord={vaccineRecord} />
-    </div>
+      <div
+        className={`grid grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-5 lg:flex-nowrap md:flex-wrap flex-wrap w-full mx-auto p-4 ${
+          theme === "dark"
+            ? "bg-gray-900 text-blue-400"
+            : "bg-gray-100 text-gray-800"
+        }`}
+      >
+        <CowDetails cow={cow} totalQuantity={totalQuantity} />
+        <MilkRecords
+          milkRecords={milkRecords}
+          milkLoading={milkLoading}
+          milkError={milkError}
+        />
+        <VaccinationRecords vaccineRecord={vaccineRecord} />
+      </div>
+    </>
   );
 };
 

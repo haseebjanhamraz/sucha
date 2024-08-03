@@ -4,36 +4,35 @@ import { formatDate } from "../utils/formatDate";
 import { calculateFullAge } from "../utils/calculateAge";
 
 const CowDetails = ({ cow, totalQuantity }) => {
+  let detailItems = {
+    Tag: cow.tag,
+    Breed: cow.breed,
+    DOB: formatDate(cow.dob),
+    Age: calculateFullAge(cow.dob),
+    Dam: cow.dam,
+    Sire: cow.sire,
+    Sex: cow.sex,
+    Color: cow.color,
+    "Totla Milk": totalQuantity,
+  };
   return (
-    <div className="CowDetails border-2 p-4 m-4 rounded-md">
-      <h2 className="text-2xl font-bold text-center m-5">Cow Details</h2>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Tag: {cow.tag}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Breed: {cow.breed}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        DOB: {formatDate(cow.dob)}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Age: {calculateFullAge(cow.dob)}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Dam: {cow.dam}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Sire: {cow.sire}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Sex: {cow.sex}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Color: {cow.color}
-      </p>
-      <p className={`border-2 mt-2 text-lg p-2 rounded-lg font-medium`}>
-        Total Milk: <span className="font-bold">{totalQuantity} Ltrs</span>
-      </p>
+    <div className="border-2 p-4 m-4 rounded-md">
+      <h2 className="text-2xl font-bold mt-10 mb-4 text-center uppercase">
+        Cattle Record
+      </h2>
+      <hr className="border-4 mb-12 mt-2" />
+      <ul>
+        {Object.entries(detailItems).map(([key, val], i) => (
+          <ul key={i}>
+            <li className="text-md text-gray-500 text-center">
+              {key}
+              {": "}
+              <span className="text-green-600 font-bold capitalize">{val}</span>
+            </li>
+            <hr className="border-2  m-2" />
+          </ul>
+        ))}
+      </ul>
     </div>
   );
 };

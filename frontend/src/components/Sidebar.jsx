@@ -101,7 +101,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-full border-2 ${
+      className={`h-screen border-2 ${
         theme === "dark"
           ? "bg-gray-900 text-blue-400 border-blue-500 "
           : "bg-blue-500 text-white"
