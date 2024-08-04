@@ -7,6 +7,7 @@ const milkRecordRoutes = require("./routes/milkRecords");
 const vaccineRecordRoutes = require("./routes/vaccineRecords");
 const vaccineRoutes = require("./routes/vaccineList");
 const AiSemen = require("./routes/aiSemen");
+const pregnancyRecord = require("./routes/pregnancyRecord");
 const authRoutes = require("./routes/auth");
 const cors = require("cors");
 
@@ -30,12 +31,13 @@ mongoose
   .catch((err) => console.log(err));
 
 // Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/animals", animalRoutes);
 app.use("/api/milk-records", milkRecordRoutes);
 app.use("/api/vaccine-records", vaccineRecordRoutes);
 app.use("/api/vaccines", vaccineRoutes);
 app.use("/api/ai-semens", AiSemen);
-app.use("/api/auth", authRoutes);
+app.use("/api/inject-ai", pregnancyRecord);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

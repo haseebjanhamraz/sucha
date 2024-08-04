@@ -3,6 +3,7 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const { authenticateJWT } = require("../middlewares/authMiddleware");
 const AiSemen = require("../models/AiSemen");
+const validateToken = require("../middlewares/validateToken");
 
 // Validation middleware for vaccine records
 
@@ -23,7 +24,7 @@ router.get("/", async (req, res) => {
 });
 
 // Add a ai semen to the database
-router.post("/", validateSemen, authenticateJWT, async (req, res) => {
+router.post("/", validateSemen, validateToken, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -44,7 +45,7 @@ router.post("/", validateSemen, authenticateJWT, async (req, res) => {
   }
 });
 
-router.put("/:id", validateSemen, authenticateJWT, async (req, res) => {
+router.put("/:id", validateSemen, validateToken, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -70,7 +71,7 @@ router.put("/:id", validateSemen, authenticateJWT, async (req, res) => {
 });
 
 // DELETE route to delete an AiSemen record by its ID
-router.delete("/:id", authenticateJWT, async (req, res) => {
+router.delete("/:id", validateToken, async (req, res) => {
   try {
     const aiSemen = await AiSemen.findById(req.params.id);
     if (!aiSemen) {

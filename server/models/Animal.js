@@ -9,6 +9,9 @@ const AnimalSchema = new Schema({
   sire: { type: String, required: true },
   sex: { type: String, required: true },
   color: { type: String, required: true },
+  pregnant: { type: Boolean, default: false },
+  pregnancyStartDate: { type: Date },
+  pregnancyCount: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model("Animal", AnimalSchema);

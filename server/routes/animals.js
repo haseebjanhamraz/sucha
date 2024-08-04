@@ -7,9 +7,7 @@ const validateToken = require("../middlewares/validateToken");
 
 router.get("/", validateToken, async (req, res) => {
   try {
-    const totalAnimals = await Animal.countDocuments();
     const animals = await Animal.find();
-
     console.log("*** Animals Retrieved ***");
 
     res.json({

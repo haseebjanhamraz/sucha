@@ -3,7 +3,6 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const VaccineRecord = require("../models/VaccineRecord");
 const Animal = require("../models/Animal");
-const { authenticateJWT } = require("../middlewares/authMiddleware");
 const validateToken = require("../middlewares/validateToken");
 
 // Validation middleware for vaccine records
