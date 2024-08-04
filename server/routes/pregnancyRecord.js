@@ -1,16 +1,14 @@
 const express = require("express");
-const { body, validationResult } = require("express-validator");
-const MilkRecord = require("../models/MilkRecord");
+const router = express.Router();
 const Animal = require("../models/Animal");
 const AiSemen = require("../models/AiSemen");
-const router = express.Router();
+const PregnancyRecord = require("../models/PregnancyRecord");
 
 const validateToken = require("../middlewares/validateToken");
 
 router.post("/:animalId", validateToken, async (req, res) => {
   const { animalId } = req.params;
-  const { semenId } = req.body; // Assuming semenId is sent in the request body
-  const { date } = req.body;
+  const { semenId, date } = req.body; // Assuming semenId and optional date are sent in the request body
 
   try {
     // Find the animal by ID
@@ -27,6 +25,7 @@ router.post("/:animalId", validateToken, async (req, res) => {
           "Cattle is not female, AI Semen can only be injected to female cows",
       });
     }
+
     // Find the AI semen by ID
     const semen = await AiSemen.findById(semenId);
 
@@ -34,17 +33,27 @@ router.post("/:animalId", validateToken, async (req, res) => {
       return res.status(404).json({ message: "AI Semen not found" });
     }
 
-    let pregnancyCount = 1;
-
     // Update the animal's pregnancy status and start date
     animal.pregnant = true;
-    animal.pregnancyStartDate = date ? date : new Date();
     animal.pregnancyCount = (animal.pregnancyCount || 0) + 1;
     await animal.save();
+
+    const pregnancyStartDate = date ? new Date(date) : new Date();
+
+    // Create a new pregnancy record
+    const pregnancyRecord = new PregnancyRecord({
+      animalId: animal._id,
+      date: animal.pregnancyStartDate,
+      semen: semen._id,
+      pregnancyStartDate: pregnancyStartDate,
+    });
+
+    await pregnancyRecord.save();
 
     res.status(200).json({
       message: "AI Semen injected successfully and pregnancy status updated",
       animal,
+      pregnancyRecord,
     });
   } catch (error) {
     console.error(error);
