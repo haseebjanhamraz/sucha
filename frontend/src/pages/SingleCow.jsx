@@ -8,6 +8,7 @@ import useSingleMilkRecord from "../hooks/useSingleMilkRecord";
 import CowDetails from "../components/CowDetails";
 import MilkRecords from "../components/MilkRecords";
 import VaccinationRecords from "../components/VaccinationRecords";
+import CowPregnancyRecord from "../components/CowPregnancyRecord";
 
 const SingleCowPage = () => {
   const { theme } = useTheme();
@@ -112,6 +113,7 @@ const SingleCowPage = () => {
           milkError={milkError}
         />
         <VaccinationRecords vaccineRecord={vaccineRecord} />
+        <CowPregnancyRecord cow={cow} />
       </div>
     </>
   );

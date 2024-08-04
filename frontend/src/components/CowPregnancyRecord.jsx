@@ -1,24 +1,14 @@
 // src/components/CowDetails.jsx
 import { React, useState } from "react";
-import { formatDate } from "../utils/formatDate";
-import { calculateFullAge } from "../utils/calculateAge";
 
-const CowDetails = ({ cow, totalQuantity }) => {
+const CowPregnancyRecord = ({ cow }) => {
   const { pregnancy, setPregnancy } = useState("true");
 
   let detailItems = {
-    Tag: cow.tag,
-    Breed: cow.breed,
-    DOB: formatDate(cow.dob),
-    Age: calculateFullAge(cow.dob),
-    Dam: cow.dam,
-    Sire: cow.sire,
-    Sex: cow.sex,
-    Color: cow.color,
     Pregnancy: "",
     "Pregnancy Count": cow.pregnancyCount,
-    "Totla Milk": totalQuantity,
   };
+
   if (cow.pregnant) {
     detailItems.Pregnancy = "Yes";
   } else {
@@ -27,8 +17,8 @@ const CowDetails = ({ cow, totalQuantity }) => {
 
   return (
     <div className="border-2 p-4 m-4 rounded-md">
-      <h2 className="text-2xl font-bold mt-10 mb-4 text-center uppercase">
-        Cattle Record
+      <h2 className="text-2xl font-bold mt-10 mb-4 text-center">
+        Pregnancy Record
       </h2>
       <hr className="border-4 mb-12 mt-2" />
       <ul>
@@ -47,4 +37,4 @@ const CowDetails = ({ cow, totalQuantity }) => {
   );
 };
 
-export default CowDetails;
+export default CowPregnancyRecord;
