@@ -61,4 +61,28 @@ router.post("/:animalId", validateToken, async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const pregnancyRecords = await PregnancyRecord.find().exec();
+    res.status(200).json(pregnancyRecords);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+router.get("/:animalId", validateToken, async (req, res) => {
+  try {
+    const { animalId } = req.params;
+    const pregnancyRecords = await PregnancyRecord.find({ animalId: animalId });
+    if (!pregnancyRecords) {
+      return res.status(404).json({ message: "Pregnancy record not found" });
+    }
+    res.status(200).json(pregnancyRecords);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
