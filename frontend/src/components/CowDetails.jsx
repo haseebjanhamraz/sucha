@@ -4,8 +4,6 @@ import { formatDate } from "../utils/formatDate";
 import { calculateFullAge } from "../utils/calculateAge";
 
 const CowDetails = ({ cow, totalQuantity }) => {
-  const { pregnancy, setPregnancy } = useState("true");
-
   let detailItems = {
     Tag: cow.tag,
     Breed: cow.breed,

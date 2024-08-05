@@ -15,7 +15,8 @@ const SingleCowPage = () => {
   const { id } = useParams();
   const { token } = useAuth();
   const [cow, setCow] = useState(null);
-  const [vaccineRecord, setVaccineRecord] = useState(null);
+  const [pregnancyRecord, setPregnancyRecord] = useState([]);
+  const [vaccineRecord, setVaccineRecord] = useState([]);
   const [error, setError] = useState("");
 
   const {
@@ -84,7 +85,25 @@ const SingleCowPage = () => {
       }
     };
 
+    const fetchPregnancyRecord = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/inject-ai/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setPregnancyRecord(response.data);
+        console.log(response.data);
+      } catch (err) {
+        setError("Failed to fetch pregnancy records.");
+      }
+    };
+
     fetchCow();
+    fetchPregnancyRecord();
     fetchVaccineRecord();
   }, [id, token]);
 
@@ -113,7 +132,7 @@ const SingleCowPage = () => {
           milkError={milkError}
         />
         <VaccinationRecords vaccineRecord={vaccineRecord} />
-        <CowPregnancyRecord cow={cow} />
+        <CowPregnancyRecord cow={cow} pregnancyRecord={pregnancyRecord} />
       </div>
     </>
   );

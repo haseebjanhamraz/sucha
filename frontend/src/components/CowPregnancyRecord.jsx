@@ -1,19 +1,10 @@
-// src/components/CowDetails.jsx
-import { React, useState } from "react";
-
-const CowPregnancyRecord = ({ cow }) => {
-  const { pregnancy, setPregnancy } = useState("true");
-
-  let detailItems = {
-    Pregnancy: "",
+import React from "react";
+import { formatDate } from "../utils/formatDate";
+const CowPregnancyRecord = ({ cow, pregnancyRecord }) => {
+  const detailItems = {
+    Pregnancy: cow.pregnant ? "Yes" : "No",
     "Pregnancy Count": cow.pregnancyCount,
   };
-
-  if (cow.pregnant) {
-    detailItems.Pregnancy = "Yes";
-  } else {
-    detailItems.Pregnancy = "No";
-  }
 
   return (
     <div className="border-2 p-4 m-4 rounded-md">
@@ -29,10 +20,27 @@ const CowPregnancyRecord = ({ cow }) => {
               {": "}
               <span className="text-green-600 font-bold capitalize">{val}</span>
             </li>
-            <hr className="border-2  m-2" />
+            <hr className="border-2 m-2" />
           </ul>
         ))}
       </ul>
+
+      {pregnancyRecord.length > 0 ? (
+        <div className="overflow-x-auto">
+          {pregnancyRecord.map((record, index) => (
+            <ul key={record.id}>
+              <li>S#</li>
+              <li className="py-2 px-4 border">formatDate({record.date})</li>
+              <li className="py-2 px-4 border">{record.semen}</li>
+              <li className="py-2 px-4 border">{record.date}</li>
+            </ul>
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-red-500">
+          No pregnancy records available.
+        </p>
+      )}
     </div>
   );
 };
