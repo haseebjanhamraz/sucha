@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDate } from "../utils/formatDate";
+
 const CowPregnancyRecord = ({ cow, pregnancyRecord }) => {
   const detailItems = {
     Pregnancy: cow.pregnant ? "Yes" : "No",
@@ -27,14 +27,22 @@ const CowPregnancyRecord = ({ cow, pregnancyRecord }) => {
 
       {pregnancyRecord.length > 0 ? (
         <div className="overflow-x-auto">
-          {pregnancyRecord.map((record, index) => (
-            <ul key={record.id}>
-              <li>S#</li>
-              <li className="py-2 px-4 border">formatDate({record.date})</li>
-              <li className="py-2 px-4 border">{record.semen}</li>
-              <li className="py-2 px-4 border">{record.date}</li>
-            </ul>
-          ))}
+          <table className="min-w-full bg-white border">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="py-2 px-4 border">Insemination Date</th>
+                <th className="py-2 px-4 border">Semen Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pregnancyRecord.map((record) => (
+                <tr key={record._id}>
+                  <td className="py-2 px-4 border">{record.date}</td>
+                  <td className="py-2 px-4 border">{record.semen}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
         <p className="text-center text-red-500">

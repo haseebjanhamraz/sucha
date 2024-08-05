@@ -87,16 +87,21 @@ const SingleCowPage = () => {
 
     const fetchPregnancyRecord = async () => {
       try {
+        const myId = id.toString();
+        console.log(myId);
         const response = await axios.get(
-          `http://localhost:8080/api/inject-ai/`,
+          `http://localhost:8080/api/inject-ai/${myId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        setPregnancyRecord(response.data);
-        console.log(response.data);
+
+        const pregnancyRecord = response.data;
+        const semenIds = pregnancyRecord.map((record) => record.semen);
+
+        setPregnancyRecord(pregnancyRecord);
       } catch (err) {
         setError("Failed to fetch pregnancy records.");
       }
