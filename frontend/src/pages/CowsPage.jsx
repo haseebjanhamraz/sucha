@@ -102,7 +102,16 @@ const CowsPage = () => {
                   <td className="border border-gray-300 p-2">
                     {currentPage * pageSize + index + 1}
                   </td>
-                  <td className="border border-gray-300 p-2">{cow.tag}</td>
+                  {cow.pregnant ? (
+                    <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-md m-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                      {cow.tag}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-md m-2 font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                      {cow.tag}
+                    </span>
+                  )}
+
                   <td className="border border-gray-300 p-2">{cow.breed}</td>
                   <td className="border border-gray-300 p-2 hidden sm:table-cell">
                     {formatDate(cow.dob)}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTheme } from "../ThemeContext";
-import { calculateFullAge } from "../utils/calculateAge";
 import { formatDate } from "../utils/formatDate";
 import { Link, useNavigate } from "react-router-dom";
 import useCows from "../hooks/useCows";

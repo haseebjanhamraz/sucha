@@ -33,9 +33,9 @@ router.post("/:animalId", validateToken, async (req, res) => {
       return res.status(404).json({ message: "AI Semen not found" });
     }
 
-    // Update the animal's pregnancy status and start date
     animal.pregnant = true;
     animal.pregnancyCount = (animal.pregnancyCount || 0) + 1;
+
     await animal.save();
 
     const pregnancyStartDate = date ? new Date(date) : new Date();
@@ -43,7 +43,7 @@ router.post("/:animalId", validateToken, async (req, res) => {
     // Create a new pregnancy record
     const pregnancyRecord = new PregnancyRecord({
       animalId: animal._id,
-      date: animal.pregnancyStartDate,
+      date: pregnancyStartDate,
       semen: semen._id,
       pregnancyStartDate: pregnancyStartDate,
     });
