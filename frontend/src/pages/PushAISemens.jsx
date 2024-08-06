@@ -1,16 +1,14 @@
-// AddMilkRecordPage.jsx
 import React, { useState } from "react";
+import axios from "axios";
 import { useTheme } from "../ThemeContext";
-import useManageMilkRecords from "../hooks/useManageMilkRecords";
 import useFemaleCows from "../hooks/useFemaleCows";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import useAISemens from "../hooks/useAISemens";
 
-const AddMilkRecordForm = () => {
+const PushAiSemen = () => {
   const { aisemens } = useAISemens();
   const { enqueueSnackbar } = useSnackbar();
   const { theme } = useTheme();
-  const { addMilkRecord, loading, error } = useManageMilkRecords();
   const {
     femaleCows,
     loading: cowsLoading,
@@ -19,24 +17,47 @@ const AddMilkRecordForm = () => {
   const [record, setRecord] = useState({
     animalId: "",
     date: "",
-    time: "",
-    quantity: 0,
+    semenId: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const pushAi = async (newRecord) => {
+    setLoading(true);
+    try {
+      console.log(newRecord.animalId);
+      const response = await axios.post(
+        `http://localhost:8080/api/inject-ai/${newRecord.animalId}`,
+        newRecord,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      setError("Failed to add AI record. Please try again.");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddRecord = async (e) => {
     e.preventDefault();
     const currentDate = new Date().toISOString().split("T")[0];
     const recordWithDate = { ...record, date: record.date || currentDate };
     try {
-      await addMilkRecord(recordWithDate);
-      setRecord({ animalId: "", date: "", time: "", quantity: 0 });
-      enqueueSnackbar("Milk record added successfully!", {
+      await pushAi(recordWithDate);
+      setRecord({ animalId: "", date: "", semenId: "" });
+      enqueueSnackbar("AI Semen record added successfully!", {
         variant: "success",
         autoHideDuration: 3000,
       });
     } catch (err) {
       console.error(err);
-      enqueueSnackbar("Failed to add milk record. Please try again.", {
+      enqueueSnackbar("Failed to add AI semen. Please try again.", {
         variant: "error",
         autoHideDuration: 3000,
       });
@@ -78,14 +99,16 @@ const AddMilkRecordForm = () => {
         />
 
         <select
-          value={record.time}
-          onChange={(e) => setRecord({ ...record, time: e.target.value })}
+          value={record.semenId}
+          onChange={(e) => setRecord({ ...record, semenId: e.target.value })}
           className="p-2 border rounded"
           required
         >
           <option value="">Select Semen</option>
           {aisemens.map((aisemen) => (
-            <option value={`{aisemen.name}`}>{aisemen.name} </option>
+            <option key={aisemen._id} value={aisemen._id}>
+              {aisemen.name}
+            </option>
           ))}
         </select>
 
@@ -97,10 +120,10 @@ const AddMilkRecordForm = () => {
   );
 };
 
-const AddMilkRecordPage = () => (
+const PushAISemen = () => (
   <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
-    <AddMilkRecordForm />
+    <PushAiSemen />
   </SnackbarProvider>
 );
 
-export default AddMilkRecordPage;
+export default PushAISemen;

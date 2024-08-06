@@ -16,7 +16,6 @@ const SingleCowPage = () => {
   const { token } = useAuth();
   const [cow, setCow] = useState(null);
   const [pregnancyRecord, setPregnancyRecord] = useState([]);
-  const [fullPregRecord, setFullPregRecord] = useState([]);
   const [vaccineRecord, setVaccineRecord] = useState([]);
   const [error, setError] = useState("");
 

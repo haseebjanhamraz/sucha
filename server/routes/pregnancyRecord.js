@@ -61,7 +61,7 @@ router.post("/:animalId", validateToken, async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
   try {
     const pregnancyRecords = await PregnancyRecord.find().exec();
     res.status(200).json(pregnancyRecords);
