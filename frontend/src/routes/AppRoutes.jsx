@@ -17,6 +17,7 @@ import Vaccines from "../pages/Vaccines";
 import AiSemens from "../pages/AiSemens";
 import AddMilkRecordPage from "../pages/AddMilkRecordPage";
 import InjectVaccine from "../pages/InjectVaccine";
+import PregnantCows from "../pages/PregnantCows";
 
 const AppRoutes = () => {
   return (
@@ -39,6 +40,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Dashboard>
                 <CowsPage />
+              </Dashboard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cows/pregnant-cows"
+          element={
+            <ProtectedRoute>
+              <Dashboard>
+                <PregnantCows />
               </Dashboard>
             </ProtectedRoute>
           }
