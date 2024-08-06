@@ -24,7 +24,7 @@ const CowDetails = ({ cow, totalQuantity }) => {
   }
 
   return (
-    <div className="border-2 p-4 m-4 rounded-md">
+    <div className="w-full border-2 p-4 m-4 rounded-md">
       <h2 className="text-2xl font-bold mt-10 mb-4 text-center uppercase">
         Cattle Record
       </h2>

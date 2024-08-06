@@ -24,7 +24,7 @@ const MilkRecords = ({ milkRecords, milkLoading, milkError }) => {
   }
 
   return (
-    <div className="CowDetails w-full border-2 p-4 m-4 rounded-md">
+    <div className=" w-full border-2 p-4 m-4 rounded-md">
       <h2 className="text-2xl font-bold text-center m-5">Milk Records</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse border border-gray-300 overflow-x-auto">

@@ -89,17 +89,6 @@ const AddMilkRecordForm = () => {
           ))}
         </select>
 
-        <input
-          type="number"
-          value={record.quantity}
-          onChange={(e) =>
-            setRecord({ ...record, quantity: Number(e.target.value) })
-          }
-          className="p-2 border rounded"
-          placeholder="Quantity"
-          required
-        />
-
         <button type="submit" className="bg-green-500 text-white p-2 rounded">
           Add Record
         </button>
