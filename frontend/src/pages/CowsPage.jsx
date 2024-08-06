@@ -91,7 +91,7 @@ const CowsPage = () => {
                 </th>
                 <th className="border border-gray-300 p-2">Sex</th>
                 <th className="border border-gray-300 p-2 hidden lg:table-cell">
-                  Color
+                  Pregnant
                 </th>
                 <th className="border border-gray-300 p-2">Actions</th>
               </tr>
@@ -103,7 +103,7 @@ const CowsPage = () => {
                     {currentPage * pageSize + index + 1}
                   </td>
                   {cow.pregnant ? (
-                    <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-md m-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                    <span className="inline-flex items-center  rounded-md bg-green-50 px-2 py-1 text-md m-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                       {cow.tag}
                     </span>
                   ) : (
@@ -125,9 +125,15 @@ const CowsPage = () => {
                   <td className="border border-gray-300 p-2 hidden md:table-cell">
                     {cow.sire}
                   </td>
-                  <td className="border border-gray-300 p-2">{cow.sex}</td>
-                  <td className="border border-gray-300 p-2 hidden lg:table-cell">
-                    {cow.color}
+                  <td className="border border-gray-300 p-2 capitalize">
+                    {cow.sex}
+                  </td>
+                  <td className="border border-gray-300 font-bold p-2 hidden lg:table-cell">
+                    {cow.pregnant ? (
+                      <p className="text-green-700">Pregnant</p>
+                    ) : (
+                      <></>
+                    )}
                   </td>
                   <td className="flex gap-2 p-2">
                     <Link to={`/cows/edit/${cow._id}`}>

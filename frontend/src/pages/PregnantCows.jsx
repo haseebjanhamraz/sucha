@@ -89,9 +89,11 @@ const PregnantCows = () => {
                   <th className="border border-gray-300 p-2 hidden md:table-cell">
                     Sire
                   </th>
-                  <th className="border border-gray-300 p-2">Pregnancy</th>
+                  <th className="border border-gray-300 p-2">
+                    Pregnancy Status
+                  </th>
                   <th className="border border-gray-300 p-2 hidden lg:table-cell">
-                    Color
+                    Pregnancy Start Date
                   </th>
                   <th className="border border-gray-300 p-2">Actions</th>
                 </tr>
@@ -111,10 +113,11 @@ const PregnantCows = () => {
                       {cow.sire}
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {cow.pregnant ? "Yes" : "No"}
+                      {cow.pregnant ? <p>Pregnant</p> : <></>}
                     </td>
                     <td className="border border-gray-300 p-2 hidden lg:table-cell">
-                      {cow.color}
+                      {cow.pregnancyStartDate &&
+                        formatDate(cow.pregnancyStartDate)}
                     </td>
                     <td className="flex gap-2 p-2">
                       <Link to={`/cows/edit/${cow._id}`}>
