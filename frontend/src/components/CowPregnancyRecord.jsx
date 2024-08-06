@@ -1,5 +1,5 @@
 import React from "react";
-
+import { formatDate } from "../utils/formatDate";
 const CowPregnancyRecord = ({ cow, pregnancyRecord }) => {
   const detailItems = {
     Pregnancy: cow.pregnant ? "Yes" : "No",
@@ -14,31 +14,34 @@ const CowPregnancyRecord = ({ cow, pregnancyRecord }) => {
       <hr className="border-4 mb-12 mt-2" />
       <ul>
         {Object.entries(detailItems).map(([key, val], i) => (
-          <ul key={i}>
-            <li className="text-md text-gray-500 text-center">
-              {key}
-              {": "}
+          <li key={i}>
+            <p className="text-md text-gray-500 text-center">
+              {key}:{" "}
               <span className="text-green-600 font-bold capitalize">{val}</span>
-            </li>
+            </p>
             <hr className="border-2 m-2" />
-          </ul>
+          </li>
         ))}
       </ul>
 
       {pregnancyRecord.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border">
-            <thead className="bg-gray-200">
+        <div className="overflow-x-auto m-3">
+          <table className="min-w-full border">
+            <thead className="">
               <tr>
-                <th className="py-2 px-4 border">Insemination Date</th>
-                <th className="py-2 px-4 border">Semen Type</th>
+                <th className="py-2 px-4 border">Semen Name</th>
+                <th className="py-2 px-4 border">AI Date</th>
               </tr>
             </thead>
             <tbody>
               {pregnancyRecord.map((record) => (
                 <tr key={record._id}>
-                  <td className="py-2 px-4 border">{record.date}</td>
-                  <td className="py-2 px-4 border">{record.semen}</td>
+                  <td className="py-2 font-bold px-4 border text-center">
+                    {record.semenName}
+                  </td>
+                  <td className="py-2 px-4 text-center border">
+                    {formatDate(record.date)}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -85,4 +85,17 @@ router.delete("/:id", validateToken, async (req, res) => {
   }
 });
 
+router.get("/:id", validateToken, async (req, res) => {
+  try {
+    const aiSemen = await AiSemen.findById(req.params.id);
+    if (!aiSemen) {
+      return res.status(404).json({ message: "AiSemen not found" });
+    }
+    res.json(aiSemen);
+    console.log(aiSemen);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 module.exports = router;
