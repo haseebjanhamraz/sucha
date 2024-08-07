@@ -101,7 +101,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-screen sticky top-0 border-2 ${
+      className={`h-full sticky top-0 border-2 ${
         theme === "dark"
           ? "bg-gray-900 text-blue-400 border-blue-500 "
           : "bg-blue-500 text-white"
@@ -126,7 +126,7 @@ const Sidebar = () => {
         )}
       </div>
 
-      <nav className="flex flex-col mt-4">
+      <nav className="flex flex-col mt-2">
         {sidebarItems.map((item, index) => (
           <div key={index}>
             <Link
@@ -149,7 +149,7 @@ const Sidebar = () => {
                 <Link
                   key={subIndex}
                   to={subItem.to}
-                  className={`p-2 pl-10  hover:bg-blue-700 hover:text-white flex items-center ${
+                  className={`p-2 lg:pl-10 md:pl-4   hover:bg-blue-700 hover:text-white flex items-center ${
                     location.pathname === subItem.to
                       ? ` ${
                           theme === "dark"

@@ -13,6 +13,7 @@ const AnimalSchema = new Schema(
     pregnant: { type: Boolean, default: false },
     pregnancyStartDate: { type: Date },
     pregnancyCount: { type: Number, default: 0 },
+    status: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
