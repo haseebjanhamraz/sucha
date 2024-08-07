@@ -5,7 +5,7 @@ import Error404 from "../components/Error404";
 
 const VaccinationRecords = ({ vaccineRecord }) => {
   if (!vaccineRecord) {
-    return <div>Loading...</div>;
+    return <div>No Records Found</div>;
   }
 
   return (

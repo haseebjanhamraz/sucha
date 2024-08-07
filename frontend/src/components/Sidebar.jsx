@@ -23,9 +23,9 @@ const sidebarItems = [
     subItems: [
       { to: "/cows/pushai", icon: PiDnaBold, label: "Push AI Semens" },
       {
-        to: "/cows/inject-vaccines",
+        to: "/cows/vaccination",
         icon: BiInjection,
-        label: "Inject Vaccines",
+        label: "Vaccinations",
       },
       {
         to: "/cows/pregnant-cows",

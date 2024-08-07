@@ -6,7 +6,6 @@ import { useAuth } from "../context/AuthContext";
 const useCows = () => {
   const { token } = useAuth();
   const [cows, setCows] = useState([]);
-  const [pregnantCows, setPregnantCows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -20,7 +19,6 @@ const useCows = () => {
         });
 
         const data = response.data.data;
-        console.log(data);
 
         setCows(data);
       } catch (err) {

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+// src/pages/SingleCowPage.jsx
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import BackButton from "../components/BackButton";
 import { useTheme } from "../ThemeContext";
 import useSingleMilkRecord from "../hooks/useSingleMilkRecord";
+import useVaccineRecords from "../hooks/useVaccineRecords";
 import CowDetails from "../components/CowDetails";
 import MilkRecords from "../components/MilkRecords";
 import VaccinationRecords from "../components/VaccinationRecords";
@@ -16,7 +18,6 @@ const SingleCowPage = () => {
   const { token } = useAuth();
   const [cow, setCow] = useState(null);
   const [pregnancyRecord, setPregnancyRecord] = useState([]);
-  const [vaccineRecord, setVaccineRecord] = useState([]);
   const [error, setError] = useState("");
 
   const {
@@ -25,6 +26,7 @@ const SingleCowPage = () => {
     loading: milkLoading,
     error: milkError,
   } = useSingleMilkRecord(id);
+  const { vaccineRecord, error: vaccineError } = useVaccineRecords(id);
 
   useEffect(() => {
     const fetchCow = async () => {
@@ -40,48 +42,6 @@ const SingleCowPage = () => {
         setCow(response.data);
       } catch (err) {
         setError("Failed to fetch cow data.");
-      }
-    };
-
-    const fetchVaccineRecord = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/vaccine-records/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const vaccineRecords = response.data;
-        const vaccineIds = vaccineRecords.map((record) => record.vaccine);
-
-        const fetchVaccineNames = async () => {
-          try {
-            const responses = await Promise.all(
-              vaccineIds.map((vaccineId) =>
-                axios.get(`http://localhost:8080/api/vaccines/${vaccineId}`, {
-                  headers: { Authorization: `Bearer ${token}` },
-                })
-              )
-            );
-            const vaccineData = responses.map((res) => res.data);
-            const vaccineRecordsWithNames = vaccineRecords.map(
-              (record, index) => ({
-                ...record,
-                vaccineName: vaccineData[index].name,
-              })
-            );
-            setVaccineRecord(vaccineRecordsWithNames);
-          } catch (err) {
-            setError("Failed to fetch vaccine names.");
-          }
-        };
-
-        fetchVaccineNames();
-      } catch (err) {
-        setError("Failed to fetch vaccine records.");
       }
     };
 
@@ -129,7 +89,6 @@ const SingleCowPage = () => {
 
     fetchCow();
     fetchPregnancyRecord();
-    fetchVaccineRecord();
   }, [id, token]);
 
   if (error) {
@@ -156,7 +115,10 @@ const SingleCowPage = () => {
           milkLoading={milkLoading}
           milkError={milkError}
         />
-        <VaccinationRecords vaccineRecord={vaccineRecord} />
+        <VaccinationRecords
+          vaccineRecord={vaccineRecord}
+          error={vaccineError}
+        />
         <CowPregnancyRecord cow={cow} pregnancyRecord={pregnancyRecord} />
       </div>
     </>

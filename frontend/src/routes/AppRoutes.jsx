@@ -5,7 +5,6 @@ import Dashboard from "../components/Dashboard";
 import DashboardPage from "../pages/DashboardPage";
 import CowsPage from "../pages/CowsPage";
 import MilkingRecordsPage from "../pages/MilkingRecordsPage";
-import VaccinationRecordsPage from "../pages/VaccinationRecordsPage";
 import Login from "../pages/Login";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AddEditCowPage from "../pages/AddEditCowPage";
@@ -18,6 +17,7 @@ import AiSemens from "../pages/AiSemens";
 import AddMilkRecordPage from "../pages/AddMilkRecordPage";
 import InjectVaccine from "../pages/InjectVaccine";
 import PregnantCows from "../pages/PregnantCows";
+import VaccinationRecordsPage from "../pages/VaccinationRecordsPage";
 
 const AppRoutes = () => {
   return (
@@ -95,11 +95,11 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/cows/inject-vaccines/"
+          path="/cows/vaccination/"
           element={
             <ProtectedRoute>
               <Dashboard>
-                <InjectVaccine />
+                <VaccinationRecordsPage />
               </Dashboard>
             </ProtectedRoute>
           }

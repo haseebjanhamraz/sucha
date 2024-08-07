@@ -8,8 +8,9 @@ import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import { MdEditSquare } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
 import Error404 from "../components/Error404";
+import CowPregnancyRecord from "../components/CowPregnancyRecord";
 
-const PregnantCows = () => {
+const PregnantCows = ({ cow, pregnancyRecord }) => {
   const { theme } = useTheme();
   const { cows, loading, error } = useCows();
   const [searchInput, setSearchInput] = useState("");
@@ -89,11 +90,12 @@ const PregnantCows = () => {
                   <th className="border border-gray-300 p-2 hidden md:table-cell">
                     Sire
                   </th>
-                  <th className="border border-gray-300 p-2">
-                    Pregnancy Status
+                  <th className="border border-gray-300 p-2">Status</th>
+                  <th className="border border-gray-300 p-2 hidden lg:table-cell">
+                    Count
                   </th>
                   <th className="border border-gray-300 p-2 hidden lg:table-cell">
-                    Pregnancy Start Date
+                    Last A.I. Date
                   </th>
                   <th className="border border-gray-300 p-2">Actions</th>
                 </tr>
@@ -113,7 +115,10 @@ const PregnantCows = () => {
                       {cow.sire}
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {cow.pregnant ? <p>Pregnant</p> : <></>}
+                      {cow.pregnancyCount ? <p>Pregnant</p> : <></>}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {cow.pregnancyCount ? <p>{cow.pregnancyCount}</p> : <></>}
                     </td>
                     <td className="border border-gray-300 p-2 hidden lg:table-cell">
                       {cow.pregnancyStartDate &&
@@ -134,6 +139,7 @@ const PregnantCows = () => {
                 <tr>
                   <td className="p-2 text-center font-bold">Total</td>
                   <td className="p-2"></td>
+                  <td className="p-2 hidden sm:table-cell"></td>
                   <td className="p-2 hidden sm:table-cell"></td>
                   <td className="p-2 hidden sm:table-cell"></td>
                   <td className="p-2 hidden sm:table-cell"></td>
