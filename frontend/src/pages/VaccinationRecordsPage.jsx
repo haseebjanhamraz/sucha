@@ -1,16 +1,19 @@
-// src/pages/VaccinationRecordsPage.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import useVaccineRecords from "../hooks/useVaccineRecords";
 import useCows from "../hooks/useCows";
+import useVaccines from "../hooks/useVaccines";
 import { useAuth } from "../context/AuthContext";
 import { formatDate } from "../utils/formatDate";
 
 const VaccinationRecordsPage = () => {
-  const { id } = useParams();
-  const { vaccineRecord } = useVaccineRecords();
-  const { cows } = useCows();
+  const {
+    vaccineRecord,
+    setVaccineRecord,
+    error: vaccineRecordsError,
+  } = useVaccineRecords();
+  const { cows, error: cowsError } = useCows();
+  const { vaccines, vaccineName, error: vaccinesError } = useVaccines();
   const { token } = useAuth();
 
   const [newVaccineRecord, setNewVaccineRecord] = useState({
@@ -30,6 +33,9 @@ const VaccinationRecordsPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Clear error before new attempt
+    setSuccess(""); // Clear success before new attempt
+
     try {
       const response = await axios.post(
         `http://localhost:8080/api/vaccine-records/`,
@@ -40,12 +46,17 @@ const VaccinationRecordsPage = () => {
           },
         }
       );
-      setVaccineRecord([...vaccineRecord, response.data]);
-      setSuccess("Vaccine record added successfully!");
-      setNewVaccineRecord({ animalId: "", vaccine: "", date: "" });
+
+      if (response.status === 201) {
+        setVaccineRecord((prevRecords) => [...prevRecords, response.data]);
+        setSuccess("Vaccine record added successfully!");
+        setNewVaccineRecord({ animalId: "", vaccine: "", date: "" });
+      } else {
+        throw new Error("Failed to add vaccine record.");
+      }
     } catch (err) {
+      console.error("Error adding vaccine record:", err);
       setError("Failed to add vaccine record.");
-      setSuccess("");
     }
   };
 
@@ -59,25 +70,45 @@ const VaccinationRecordsPage = () => {
       <h1 className="text-2xl font-bold mb-6">Vaccination Records</h1>
       {error && <p className="text-red-500">{error}</p>}
       {success && <p className="text-green-500">{success}</p>}
+      {vaccineRecordsError && (
+        <p className="text-red-500">{vaccineRecordsError}</p>
+      )}
+      {cowsError && <p className="text-red-500">{cowsError}</p>}
+      {vaccinesError && <p className="text-red-500">{vaccinesError}</p>}
       <form onSubmit={handleSubmit} className="mb-6">
-        <input
-          type="text"
+        <select
+          key={cows._id}
           name="animalId"
           value={newVaccineRecord.animalId}
           onChange={handleChange}
-          placeholder="Animal ID"
           className="border p-2 mr-2"
           required
-        />
-        <input
-          type="text"
+        >
+          <option value="" disabled>
+            Select Cow
+          </option>
+          {cows.map((cow) => (
+            <option key={cow._id} value={cow._id}>
+              {cow.tag}
+            </option>
+          ))}
+        </select>
+        <select
           name="vaccine"
           value={newVaccineRecord.vaccine}
           onChange={handleChange}
-          placeholder="Vaccine"
           className="border p-2 mr-2"
           required
-        />
+        >
+          <option value="" disabled>
+            Select Vaccine
+          </option>
+          {vaccines.map((vaccine) => (
+            <option key={vaccine._id} value={vaccine._id}>
+              {vaccine.name}
+            </option>
+          ))}
+        </select>
         <input
           type="date"
           name="date"
@@ -106,7 +137,6 @@ const VaccinationRecordsPage = () => {
                   <td className="border px-4 py-2 font-bold">
                     {getCowTag(record.animalId)}
                   </td>
-
                   <td className="border px-4 py-2">{record.vaccineName}</td>
                   <td className="border px-4 py-2">
                     {formatDate(record.date)}

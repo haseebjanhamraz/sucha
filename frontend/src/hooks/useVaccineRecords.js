@@ -51,10 +51,12 @@ const useVaccineRecords = (id = "") => {
       }
     };
 
-    fetchVaccineRecord();
+    if (token) {
+      fetchVaccineRecord();
+    }
   }, [id, token]);
 
-  return { vaccineRecord, error };
+  return { vaccineRecord, setVaccineRecord, error };
 };
 
 export default useVaccineRecords;
