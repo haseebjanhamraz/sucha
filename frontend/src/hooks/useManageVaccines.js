@@ -8,18 +8,14 @@ const useManageVaccines = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const updateVaccine = async (vaccineId, updatedData) => {
+  const updateVaccine = async (id, updatedData) => {
     setLoading(true);
     try {
-      await axios.put(
-        `http://localhost:8080/api/vaccines/${vaccineId}`,
-        updatedData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.put(`http://localhost:8080/api/vaccines/${id}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } catch (err) {
       setError("Failed to update vaccine. Please try again.");
     } finally {

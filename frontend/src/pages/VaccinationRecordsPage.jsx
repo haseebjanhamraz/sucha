@@ -1,3 +1,4 @@
+// src/pages/VaccinationRecordsPage.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import useVaccineRecords from "../hooks/useVaccineRecords";
@@ -5,17 +6,18 @@ import useCows from "../hooks/useCows";
 import useVaccines from "../hooks/useVaccines";
 import { useAuth } from "../context/AuthContext";
 import { formatDate } from "../utils/formatDate";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 const VaccinationRecordsPage = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const {
     vaccineRecord,
     setVaccineRecord,
     error: vaccineRecordsError,
   } = useVaccineRecords();
   const { cows, error: cowsError } = useCows();
-  const { vaccines, vaccineName, error: vaccinesError } = useVaccines();
+  const { vaccines, error: vaccinesError } = useVaccines();
   const { token } = useAuth();
-
   const [newVaccineRecord, setNewVaccineRecord] = useState({
     animalId: "",
     vaccine: "",
@@ -50,6 +52,10 @@ const VaccinationRecordsPage = () => {
       if (response.status === 201) {
         setVaccineRecord((prevRecords) => [...prevRecords, response.data]);
         setSuccess("Vaccine record added successfully!");
+        enqueueSnackbar("Vaccine record added successfully!", {
+          variant: "success",
+          autoHideDuration: 3000,
+        });
         setNewVaccineRecord({ animalId: "", vaccine: "", date: "" });
       } else {
         throw new Error("Failed to add vaccine record.");
@@ -57,6 +63,10 @@ const VaccinationRecordsPage = () => {
     } catch (err) {
       console.error("Error adding vaccine record:", err);
       setError("Failed to add vaccine record.");
+      enqueueSnackbar("Failed to add vaccine record.", {
+        variant: "error",
+        autoHideDuration: 3000,
+      });
     }
   };
 
@@ -66,26 +76,28 @@ const VaccinationRecordsPage = () => {
   };
 
   return (
-    <div>
+    <div className="p-4 md:p-8">
       <h1 className="text-2xl font-bold mb-6">Vaccination Records</h1>
       {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-green-500">{success}</p>}
+
       {vaccineRecordsError && (
         <p className="text-red-500">{vaccineRecordsError}</p>
       )}
       {cowsError && <p className="text-red-500">{cowsError}</p>}
       {vaccinesError && <p className="text-red-500">{vaccinesError}</p>}
-      <form onSubmit={handleSubmit} className="mb-6">
+      <form
+        onSubmit={handleSubmit}
+        className="mb-6 flex flex-col gap-4 md:flex-row md:items-center"
+      >
         <select
-          key={cows._id}
           name="animalId"
           value={newVaccineRecord.animalId}
           onChange={handleChange}
-          className="border p-2 mr-2"
+          className="border p-2 md:mr-2"
           required
         >
           <option value="" disabled>
-            Select Cow
+            Select Cattle
           </option>
           {cows.map((cow) => (
             <option key={cow._id} value={cow._id}>
@@ -97,7 +109,7 @@ const VaccinationRecordsPage = () => {
           name="vaccine"
           value={newVaccineRecord.vaccine}
           onChange={handleChange}
-          className="border p-2 mr-2"
+          className="border p-2 md:mr-2"
           required
         >
           <option value="" disabled>
@@ -114,21 +126,30 @@ const VaccinationRecordsPage = () => {
           name="date"
           value={newVaccineRecord.date}
           onChange={handleChange}
-          className="border p-2 mr-2"
+          className="border p-2 md:mr-2"
           required
         />
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 mt-4 md:mt-0"
+        >
           Add Vaccine Record
         </button>
       </form>
       <div>
         {vaccineRecord.length > 0 ? (
-          <table className="min-w-full bg-white">
+          <table className="min-w-full ">
             <thead>
               <tr>
-                <th className="py-2">Cow Tag</th>
-                <th className="py-2">Vaccine</th>
-                <th className="py-2">Date</th>
+                <th className="py-2 border-2 bg-blue-600 bg-opacity-30">
+                  Cow Tag
+                </th>
+                <th className="py-2 border-2 bg-blue-600 bg-opacity-30">
+                  Vaccine
+                </th>
+                <th className="py-2 border-2 bg-blue-600 bg-opacity-30">
+                  Date
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -153,4 +174,10 @@ const VaccinationRecordsPage = () => {
   );
 };
 
-export default VaccinationRecordsPage;
+const VaccinationRecordsPageWrapper = () => (
+  <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
+    <VaccinationRecordsPage />
+  </SnackbarProvider>
+);
+
+export default VaccinationRecordsPageWrapper;
