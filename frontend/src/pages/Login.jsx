@@ -4,8 +4,10 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { IoIosWarning } from "react-icons/io";
+import { useTheme } from "../ThemeContext";
 
 const Login = () => {
+  const { theme } = useTheme();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -35,12 +37,12 @@ const Login = () => {
   };
 
   return (
-    <section className="flex flex-col p-20 items-center justify-center m-5 rounded-lg shadow-xl shadow-slate-400 bg-blue-200 border-2 border-dashed border-b-blue-600">
-      <h1 className="text-3xl font-bold p-8 uppercase text-blue-800">Login</h1>
+    <section className="flex flex-col p-20 items-center justify-center m-5 rounded-lg shadow-xl shadow-slate-400 bg-blue-900 border-2 border-dashed border-b-blue-600">
+      <h1 className="text-3xl font-bold p-8 uppercase text-white">Login</h1>
       <img src="/logo.png" width={"200px"} />
       <form onSubmit={handleSubmit} className="flex flex-col">
         <input
-          className="bg-inherit border-2 font-medium border-blue-500 p-2 m-3 rounded-lg text-blue-800"
+          className="bg-inherit border-2 font-medium border-blue-500 p-2 m-3 rounded-lg text-white"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -48,7 +50,7 @@ const Login = () => {
           required
         />
         <input
-          className="bg-inherit border-2 border-blue-500 p-2 m-3 rounded-lg text-blue-800"
+          className="bg-inherit border-2 border-blue-500 p-2 m-3 rounded-lg text-white"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

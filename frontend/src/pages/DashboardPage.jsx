@@ -3,6 +3,7 @@ import React from "react";
 import MilkCard from "../components/cards/MilkCard";
 import CowCountCard from "../components/cards/CowCountCard";
 import useMilkRecords from "../hooks/useMilkRecords";
+import PregnantCowsCard from "../components/cards/PregnantCowsCard";
 import useCows from "../hooks/useCows";
 
 const DashboardPage = () => {
@@ -13,7 +14,9 @@ const DashboardPage = () => {
   } = useMilkRecords();
   const { cows, loading: cowsLoading, error: cowsError } = useCows();
 
-  const female = cows.filter((cows) => cows.sex === "female");
+  const female = cows.filter(
+    (cows) => cows.sex === "female" && cows.pregnant === true
+  );
   const male = cows.filter((cows) => cows.sex === "male");
 
   if (milkLoading || cowsLoading) return <div>Loading...</div>;
@@ -28,6 +31,7 @@ const DashboardPage = () => {
         male={male.length}
       />
       <MilkCard totalQuantity={totalQuantity} />
+      <PregnantCowsCard count={female.length} />
     </div>
   );
 };
