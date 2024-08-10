@@ -9,6 +9,9 @@ const BackButton = () => {
     <div>
       <FaArrowCircleLeft
         className="text-2xl cursor-pointer"
+        size={32}
+        color="gray"
+        style={{ marginLeft: "10px" }}
         onClick={handleBack}
       />
     </div>

@@ -7,7 +7,6 @@ import { FaMoon } from "react-icons/fa";
 const Header = (user) => {
   const { theme, toggleTheme } = useTheme();
 
-  console.log(user);
   return (
     <header className="w-full shadow p-4 flex justify-between items-center">
       <div className="text-xl font-bold"></div>

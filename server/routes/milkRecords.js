@@ -96,4 +96,44 @@ router.delete("/:id", validateToken, async (req, res) => {
   }
 });
 
+// Update a milk record (protected route)
+router.put(
+  "/:id",
+  validateToken,
+  [
+    body("date").optional().isDate().withMessage("Date must be a valid date"),
+    body("time")
+      .optional()
+      .isIn(["morning", "afternoon", "evening"])
+      .withMessage("Time must be morning, afternoon, or evening"),
+    body("quantity")
+      .optional()
+      .isFloat({ min: 0 })
+      .withMessage("Quantity must be a positive number"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const milkRecord = await MilkRecord.findById(req.params.id);
+      if (!milkRecord) {
+        return res.status(404).json({ message: "Milk record not found" });
+      }
+
+      // Update the record fields
+      if (req.body.date) milkRecord.date = req.body.date;
+      if (req.body.time) milkRecord.time = req.body.time;
+      if (req.body.quantity) milkRecord.quantity = req.body.quantity;
+
+      const updatedMilkRecord = await milkRecord.save();
+      res.status(200).json(updatedMilkRecord);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  }
+);
+
 module.exports = router;
