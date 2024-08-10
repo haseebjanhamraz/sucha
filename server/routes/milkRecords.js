@@ -62,6 +62,7 @@ router.get("/", validateToken, async (req, res) => {
   }
 });
 
+// Get Milk record for specific animal
 router.get("/:animalId", validateToken, async (req, res) => {
   try {
     const animalId = req.params.animalId;
@@ -74,6 +75,22 @@ router.get("/:animalId", validateToken, async (req, res) => {
     }
 
     res.status(200).json(milkRecords);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Delete a milk record (protected route)
+router.delete("/:id", validateToken, async (req, res) => {
+  try {
+    const milkRecord = await MilkRecord.findById(req.params.id);
+
+    if (!milkRecord) {
+      return res.status(404).json({ message: "Milk record not found" });
+    }
+
+    await milkRecord.deleteOne();
+    res.status(200).json({ message: "Milk record deleted successfully" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
