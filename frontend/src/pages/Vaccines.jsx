@@ -1,6 +1,7 @@
-import React from "react";
+import { useState } from "react";
 import useVaccines from "../hooks/useVaccines";
 import useManageVaccines from "../hooks/useManageVaccines";
+import { useTheme } from "../ThemeContext";
 
 const Vaccines = () => {
   const {
@@ -14,6 +15,8 @@ const Vaccines = () => {
     loading: manageLoading,
     error: manageError,
   } = useManageVaccines();
+  const { theme } = useTheme();
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (vaccinesLoading || manageLoading) {
     return <div>Loading...</div>;
@@ -24,20 +27,49 @@ const Vaccines = () => {
   }
 
   const handleUpdate = (vaccineId) => {
-    const updatedData = {
-      /* new data for the vaccine */
-    };
+    const updatedData = {};
     updateVaccine(vaccineId, updatedData);
   };
 
   const handleDelete = (vaccineId) => {
     deleteVaccine(vaccineId);
   };
+  const handleAddVaccine = () => {
+    setModalOpen(true);
+    console.log("Add");
+  };
 
   return (
     <>
       <h1 className="text-4xl font-bold uppercase text-center p-4">Vaccines</h1>
       <div className="flex gap-3">
+        <div className="relative">
+          {modalOpen && (
+            <div className=" x w-96 p-10 absolute">
+              <form className="flex flex-col items-center gap-4">
+                <label>Name:</label>
+                <input type="text" name="name" />
+                <label>Expiry Date:</label>
+                <input type="date" name="expiryDate" />
+                <button type="submit">Add</button>
+              </form>
+            </div>
+          )}
+        </div>
+        {vaccines.length === 0 && <p>No vaccines found.</p>}
+        <div>
+          <button
+            className={`mt-4 p-3 rounded-lg hover:opacity-70  ${
+              theme === "dark"
+                ? "bg-blue-900  text-white"
+                : "bg-gray-100 text-gray-800"
+            }`}
+            type="button"
+            onClick={handleAddVaccine}
+          >
+            Add
+          </button>
+        </div>
         {vaccines.map((vaccine) => (
           <ul key={vaccine._id} className="w-fit rounded-lg border p-4 mb-4">
             <li className="text-center uppercase text-2xl font-bold">

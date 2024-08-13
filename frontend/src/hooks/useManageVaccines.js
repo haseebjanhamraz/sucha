@@ -8,6 +8,21 @@ const useManageVaccines = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const addVaccine = async (newVaccine) => {
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:8080/api/vaccines", newVaccine, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (err) {
+      setError("Failed to add vaccine. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const updateVaccine = async (id, updatedData) => {
     setLoading(true);
     try {
@@ -38,7 +53,7 @@ const useManageVaccines = () => {
     }
   };
 
-  return { updateVaccine, deleteVaccine, loading, error };
+  return { addVaccine, updateVaccine, deleteVaccine, loading, error };
 };
 
 export default useManageVaccines;
