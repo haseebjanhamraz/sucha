@@ -1,4 +1,3 @@
-// useManageVaccines.js
 import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -11,28 +10,40 @@ const useManageVaccines = () => {
   const addVaccine = async (newVaccine) => {
     setLoading(true);
     try {
-      await axios.post("http://localhost:8080/api/vaccines", newVaccine, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/vaccines",
+        newVaccine,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
     } catch (err) {
       setError("Failed to add vaccine. Please try again.");
+      throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  const updateVaccine = async (id, updatedData) => {
+  const updateVaccine = async (vaccineId, updatedData) => {
     setLoading(true);
     try {
-      await axios.put(`http://localhost:8080/api/vaccines/${id}`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.put(
+        `http://localhost:8080/api/vaccines/${vaccineId}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
     } catch (err) {
       setError("Failed to update vaccine. Please try again.");
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -48,6 +59,7 @@ const useManageVaccines = () => {
       });
     } catch (err) {
       setError("Failed to delete vaccine. Please try again.");
+      throw err;
     } finally {
       setLoading(false);
     }

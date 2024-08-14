@@ -9,29 +9,38 @@ const useVaccines = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchVaccines = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/vaccines", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setVaccines(response.data);
-      } catch (err) {
-        setError("Failed to fetch vaccines. Please check your authentication.");
-      } finally {
+  useEffect(
+    () => {
+      const fetchVaccines = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:8080/api/vaccines",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setVaccines(response.data);
+        } catch (err) {
+          setError(
+            "Failed to fetch vaccines. Please check your authentication."
+          );
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      if (token) {
+        fetchVaccines();
+      } else {
+        setError("No authentication token found.");
         setLoading(false);
       }
-    };
-
-    if (token) {
-      fetchVaccines();
-    } else {
-      setError("No authentication token found.");
-      setLoading(false);
-    }
-  }, [token]);
+    },
+    [vaccines],
+    [token]
+  );
 
   return { vaccines, loading, error };
 };
